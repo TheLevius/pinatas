@@ -4,7 +4,7 @@ import { catalog } from '@/data/catalog';
 export const generateStaticParams = async () =>
 	catalog.map((product) => ({ sku: product.sku }));
 
-export const ProductPage = ({ params }: { params: { sku: string } }) => {
+const ProductPage = ({ params }: { params: { sku: string } }) => {
 	const product = catalog.find((p) => p.sku === params.sku);
 	if (!product) {
 		notFound();

@@ -7,19 +7,20 @@ export type Product = {
 	price: number;
 	category: string;
 	description: string;
-	favorite?: boolean;
+	favorite: boolean;
 };
 export type Version = { current: number; prev: number };
 
 export type CatalogProps = {
 	products: Product[];
+	categories: string[];
 	version: Version;
 };
 
 const DATA_API_URL = `https://docs.google.com/spreadsheets/d/e/2PACX-1vQsGqVIO54lOQnaSnsan2m5p9-JCLI37AqF6x9PPy3Q79GaG8waMPcypHW841ISf8lXSa7YKFp9L6me/pub?gid=0&single=true&output=csv`;
 const VERSION_API_URL = `https://docs.google.com/spreadsheets/d/e/2PACX-1vQsGqVIO54lOQnaSnsan2m5p9-JCLI37AqF6x9PPy3Q79GaG8waMPcypHW841ISf8lXSa7YKFp9L6me/pub?gid=850009889&single=true&output=csv`;
 
-export const parseCatalogFromCSV = (rows: string[][]) => {
+const parseCatalogFromCSV = (rows: string[][]) => {
 	const headers = rows[0];
 	const indexes = {
 		id: headers.indexOf('id'),
@@ -40,9 +41,10 @@ export const parseCatalogFromCSV = (rows: string[][]) => {
 	}));
 };
 
-export const fetchCatalog = async (): Promise<CatalogProps> => {
+const fetchCatalog = async (): Promise<CatalogProps> => {
 	const catalog: CatalogProps = {
 		products: [],
+		categories: [],
 		version: {
 			current: 0,
 			prev: 0,
@@ -66,15 +68,20 @@ export const fetchCatalog = async (): Promise<CatalogProps> => {
 	} catch (err) {
 		console.error(err);
 	}
+	const uniqueCats = catalog.products.reduce((cat, product) => {
+		cat.add(product.category);
+		return cat;
+	}, new Set<string>());
+	catalog.categories = Array.from(uniqueCats);
 	return catalog;
 };
 
 const CatalogPage = async () => {
-	const { products, version } = await fetchCatalog();
+	const { products, categories, version } = await fetchCatalog();
 	return (
 		<div>
 			<h1>Catalog Page</h1>
-			<Catalog products={products} version={version} />
+			<Catalog products={products} version={version} categories={categories} />
 		</div>
 	);
 };
