@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { CatalogProps, Product, Version } from './page';
 import { ChangeEvent, useEffect, useState } from 'react';
 import styles from './styles.module.scss';
+
 const Catalog = (props: CatalogProps) => {
 	const [filteredProducts, setFilteredProducts] = useState<Product[]>(
 		props.products
