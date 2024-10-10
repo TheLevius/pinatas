@@ -9,6 +9,7 @@ export type Product = {
 	category: string;
 	description: string;
 	favorite: boolean;
+	images: string[];
 };
 export type Version = { current: number; prev: number };
 

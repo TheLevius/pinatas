@@ -21,6 +21,7 @@ const parseCatalogFromCSV = (rows: string[][]) => {
 		category: String(row[indexes.category]),
 		description: String(row[indexes.description]),
 		favorite: false,
+		images: [`${String(row[indexes.sku])}_${0}`],
 	}));
 };
 const fetchCatalog = async (): Promise<CatalogProps> => {

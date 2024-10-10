@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { CatalogProps, Product, Version } from './page';
 import { ChangeEvent, useEffect, useState } from 'react';
 import styles from './styles.module.scss';
+import Image from 'next/image';
 
 const Catalog = (props: CatalogProps) => {
 	const [filteredProducts, setFilteredProducts] = useState<Product[]>(
@@ -132,7 +133,6 @@ const Catalog = (props: CatalogProps) => {
 			});
 		}
 	}, [selectedSortType]);
-
 	return (
 		<div>
 			<h2>Версия {version.current}</h2>
@@ -163,10 +163,19 @@ const Catalog = (props: CatalogProps) => {
 				{filteredProducts.map((product) => {
 					return (
 						<li key={product.sku} className={styles.item}>
-							<h2 onClick={() => switchFavorite(product.id)}>{product.name}</h2>
+							<Link href={`/catalog/${product.sku}`}>
+								<Image
+									src={`/img/products/pin_bomb_red_45_0.jpg`}
+									alt={product.sku}
+									width={250}
+									height={250}
+								/>
+								<h2>{product.name}</h2>
+							</Link>
+							<h3 onClick={() => switchFavorite(product.id)}>
+								click to switch {product.favorite ? '♥️' : '♡'}
+							</h3>
 							<h3>{product.price} BYN</h3>
-							<p>favorite: {product.favorite.toString()}</p>
-							<Link href={`/catalog/${product.sku}`}>Страница продукта</Link>
 						</li>
 					);
 				})}
