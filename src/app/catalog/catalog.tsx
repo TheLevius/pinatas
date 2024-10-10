@@ -4,18 +4,14 @@ import { CatalogProps, Product, Version } from './page';
 import { ChangeEvent, useEffect, useState } from 'react';
 import styles from './styles.module.scss';
 const Catalog = (props: CatalogProps) => {
-	const [products, setProducts] = useState<Product[]>(props.products);
-	const [categories, setCategories] = useState<string[]>(props.categories);
+	const [filteredProducts, setFilteredProducts] = useState<Product[]>(
+		props.products
+	);
+	const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+	const [selectedSortType, setSelectedSortType] = useState<string>('');
 	const [version, setVersion] = useState<Version>(props.version);
 	const [favorites, setFavorites] = useState<number[]>([]);
-	const switchFavorite = (id: number) => {
-		setFavorites((prev) => {
-			if (prev.includes(id)) {
-				return prev.filter((favId) => favId !== id);
-			}
-			return [...prev, id];
-		});
-	};
+
 	const sortTypes: Record<
 		string,
 		{ name: string; comparator: (a: Product, b: Product) => number }
@@ -31,41 +27,50 @@ const Catalog = (props: CatalogProps) => {
 		priceAsc: { name: 'Price Asc', comparator: (a, b) => a.price - b.price },
 		priceDesc: { name: 'Price Desc', comparator: (a, b) => b.price - a.price },
 	};
-	const handleSort = (e: ChangeEvent<HTMLSelectElement>) => {
-		setProducts((prevProducts) => {
-			const newProducts = prevProducts
-				.slice()
-				.sort(sortTypes[e.target.value].comparator);
-			return newProducts;
+
+	const switchFavorite = (id: number) => {
+		setFavorites((prev) => {
+			if (prev.includes(id)) {
+				return prev.filter((favId) => favId !== id);
+			}
+			return [...prev, id];
 		});
+	};
+
+	const handleSort = (e: ChangeEvent<HTMLSelectElement>) => {
+		setSelectedSortType(e.target.value);
+	};
+
+	const handleCategoryChange = (e: ChangeEvent<HTMLSelectElement>) => {
+		const options = Array.from(e.target.selectedOptions);
+		const values = options.map((option) => option.value);
+		setSelectedCategories(values);
 	};
 
 	useEffect(() => {
 		const localVersion = localStorage.getItem('version');
 		if (localVersion === null || version.current !== Number(localVersion)) {
 			localStorage.setItem('version', JSON.stringify(version));
-			localStorage.setItem('catalog', JSON.stringify(products));
 		}
+		const selectedCategoriesRaw = localStorage.getItem('selectedCategories');
 		const favoritesRaw = localStorage.getItem('favorites');
+		const selectedSortTypeRaw = localStorage.getItem('selectedSortType');
+
+		if (selectedCategoriesRaw !== null) {
+			const selectedCategoriesFromLS = JSON.parse(selectedCategoriesRaw);
+			setSelectedCategories(selectedCategoriesFromLS);
+		}
+
 		if (favoritesRaw !== null) {
-			const favoritesLocal = JSON.parse(favoritesRaw);
-			console.log('entries', favoritesLocal);
-			setFavorites(favoritesLocal);
-			setProducts((prevProducts) => {
-				return prevProducts.map((product) => {
-					product.favorite = favoritesLocal.includes(product.id);
-					return product;
-				});
-			});
+			const favoritesFromLS = JSON.parse(favoritesRaw);
+			setFavorites(favoritesFromLS);
+		}
+
+		if (selectedSortTypeRaw !== null) {
+			const selectedSortTypeFromLS = JSON.parse(selectedSortTypeRaw);
+			setSelectedSortType(selectedSortTypeFromLS);
 		}
 	}, []);
-	useEffect(() => {
-		const newProducts = products.map((product) => {
-			product.favorite = favorites.includes(product.id);
-			return product;
-		});
-		setProducts(newProducts);
-	}, [favorites]);
 
 	useEffect(() => {
 		if (favorites.length > 0) {
@@ -73,12 +78,68 @@ const Catalog = (props: CatalogProps) => {
 		} else {
 			localStorage.removeItem('favorites');
 		}
+
+		setFilteredProducts((prevFilteredProducts) =>
+			prevFilteredProducts.map((product) => {
+				product.favorite = favorites.includes(product.id);
+				return product;
+			})
+		);
 	}, [favorites]);
+
+	useEffect(() => {
+		let newFilteredProducts: Product[];
+		if (selectedCategories.length > 0) {
+			newFilteredProducts = props.products.filter((product) =>
+				selectedCategories.includes(product.category)
+			);
+		} else {
+			newFilteredProducts = props.products;
+		}
+		if (selectedSortType.length > 0) {
+			newFilteredProducts = newFilteredProducts
+				.slice()
+				.sort(sortTypes[selectedSortType].comparator);
+		}
+		if (favorites.length > 0) {
+			newFilteredProducts = newFilteredProducts.map((product) => {
+				product.favorite = favorites.includes(product.id);
+				return product;
+			});
+		}
+		setFilteredProducts(newFilteredProducts);
+	}, [selectedCategories]);
+
+	useEffect(() => {
+		if (selectedSortType !== '') {
+			setFilteredProducts((prevFilteredProducts) => {
+				const newFilteredProducts = prevFilteredProducts
+					.slice()
+					.sort(sortTypes[selectedSortType].comparator);
+				return newFilteredProducts;
+			});
+		}
+	}, [selectedSortType]);
 
 	return (
 		<div>
 			<h2>Версия {version.current}</h2>
-			<select onChange={handleSort}>
+			<div>
+				<select
+					id={'categories'}
+					multiple={true}
+					onChange={handleCategoryChange}
+				>
+					{props.categories.map((category) => {
+						return (
+							<option key={category} value={category}>
+								{category}
+							</option>
+						);
+					})}
+				</select>
+			</div>
+			<select onChange={handleSort} id={'sort'}>
 				{Object.entries(sortTypes).map((entry) => (
 					<option key={entry[0]} value={entry[0]}>
 						{entry[1].name}
@@ -86,12 +147,12 @@ const Catalog = (props: CatalogProps) => {
 				))}
 			</select>
 			<ul className={styles.container}>
-				{products.map((product) => {
+				{filteredProducts.map((product) => {
 					return (
 						<li key={product.sku} className={styles.item}>
 							<h2 onClick={() => switchFavorite(product.id)}>{product.name}</h2>
 							<h3>{product.price} BYN</h3>
-							<p>{product.favorite.toString()}</p>
+							<p>favorite: {product.favorite.toString()}</p>
 							<Link href={`/catalog/${product.sku}`}>Страница продукта</Link>
 						</li>
 					);
