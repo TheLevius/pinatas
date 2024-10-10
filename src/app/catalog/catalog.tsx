@@ -43,8 +43,11 @@ const Catalog = (props: CatalogProps) => {
 	};
 
 	const handleCategoryChange = (e: ChangeEvent<HTMLSelectElement>) => {
-		const options = Array.from(e.target.selectedOptions);
-		const values = options.map((option) => option.value);
+		const values = Array.from(
+			e.target.selectedOptions,
+			(option) => option.value
+		);
+
 		setSelectedCategories(values);
 	};
 
@@ -89,6 +92,14 @@ const Catalog = (props: CatalogProps) => {
 	}, [favorites]);
 
 	useEffect(() => {
+		if (selectedCategories.length > 0) {
+			localStorage.setItem(
+				'selectedCategories',
+				JSON.stringify(selectedCategories)
+			);
+		} else {
+			localStorage.removeItem('selectedCategories');
+		}
 		let newFilteredProducts: Product[];
 		if (selectedCategories.length > 0) {
 			newFilteredProducts = props.products.filter((product) =>
@@ -130,6 +141,7 @@ const Catalog = (props: CatalogProps) => {
 					id={'categories'}
 					multiple={true}
 					onChange={handleCategoryChange}
+					value={selectedCategories}
 				>
 					{props.categories.map((category) => {
 						return (
