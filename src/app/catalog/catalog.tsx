@@ -9,7 +9,7 @@ const Catalog = (props: CatalogProps) => {
 	);
 	const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 	const [selectedSortType, setSelectedSortType] = useState<string>('');
-	const [version, setVersion] = useState<Version>(props.version);
+	const [version] = useState<Version>(props.version);
 	const [favorites, setFavorites] = useState<number[]>([]);
 
 	const sortTypes: Record<
