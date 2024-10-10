@@ -135,7 +135,7 @@ const Catalog = (props: CatalogProps) => {
 	}, [selectedSortType]);
 	return (
 		<div>
-			<h2>Версия {version.current}</h2>
+			<h2>Версия Pre-Alpha</h2>
 			<div>
 				<select
 					id={'categories'}

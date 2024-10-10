@@ -1,5 +1,6 @@
 import fetchCatalog from '@/utils/fetchCatalog';
 import Catalog from './catalog';
+import Link from 'next/link';
 
 export type Product = {
 	id: number;
@@ -20,11 +21,12 @@ export type CatalogProps = {
 };
 
 const CatalogPage = async () => {
-	const { products, categories, version } = await fetchCatalog();
+	const catalog = await fetchCatalog();
 	return (
 		<div>
+			<Link href={'/catalog/favorites'}>Favorites</Link>
 			<h1>Catalog Page</h1>
-			<Catalog products={products} version={version} categories={categories} />
+			<Catalog {...catalog} />
 		</div>
 	);
 };
