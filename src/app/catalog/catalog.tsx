@@ -5,13 +5,12 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import styles from './styles.module.scss';
 import Image from 'next/image';
 import { makeDisplayPageNumbers } from '@/utils/makeDisplayPageNumbers';
-import { relative } from 'path';
 
 const defaultPageRange = 10;
 
 const Catalog = (props: CatalogProps) => {
 	const [filteredProducts, setFilteredProducts] = useState<Product[]>(
-		props.products
+		props.products ?? []
 	);
 	const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 	const [selectedSortType, setSelectedSortType] = useState<string>('');
@@ -19,8 +18,8 @@ const Catalog = (props: CatalogProps) => {
 	const [favorites, setFavorites] = useState<number[]>([]);
 
 	const [page, setPage] = useState<number>(1);
-	const [limit, setLimit] = useState<number>(4);
-	const [totalCount, setTotalCount] = useState<number>(props.products.length);
+	const [limit] = useState<number>(3);
+	const [totalCount] = useState<number>(props.products.length);
 
 	const totalPages = Math.ceil(totalCount / limit);
 	const displayPageRange =
@@ -30,7 +29,7 @@ const Catalog = (props: CatalogProps) => {
 		totalPages,
 		displayPageRange
 	);
-
+	console.log('--->', displayPages);
 	const sortTypes: Record<
 		string,
 		{ name: string; comparator: (a: Product, b: Product) => number }
@@ -196,7 +195,7 @@ const Catalog = (props: CatalogProps) => {
 										<Image
 											src={`/img/products/pin_bomb_red_45_0.jpg`}
 											alt={product.sku}
-											layout='fill'
+											fill
 										/>
 									</div>
 									<h2>{product.name}</h2>
