@@ -1,10 +1,18 @@
 'use client';
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import { CatalogProps, Product, Version } from './page';
 import { ChangeEvent, useEffect, useState } from 'react';
 import styles from './styles.module.scss';
 import Image from 'next/image';
 import { makeDisplayPageNumbers } from '@/utils/makeDisplayPageNumbers';
+import { MultiValue } from 'react-select';
+const Select = dynamic(() => import('react-select'), { ssr: false });
+
+type CategoryOption = {
+	value: string;
+	label: string;
+};
 
 const defaultPageRange = 10;
 
@@ -19,7 +27,7 @@ const Catalog = (props: CatalogProps) => {
 
 	const [page, setPage] = useState<number>(1);
 	const [limit] = useState<number>(3);
-	const [totalCount] = useState<number>(props.products.length);
+	const [totalCount, setTotalCount] = useState<number>(props.products.length);
 
 	const totalPages = Math.ceil(totalCount / limit);
 	const displayPageRange =
@@ -29,7 +37,6 @@ const Catalog = (props: CatalogProps) => {
 		totalPages,
 		displayPageRange
 	);
-	console.log('--->', displayPages);
 	const sortTypes: Record<
 		string,
 		{ name: string; comparator: (a: Product, b: Product) => number }
@@ -59,16 +66,23 @@ const Catalog = (props: CatalogProps) => {
 		setSelectedSortType(e.target.value);
 	};
 
-	const handleCategoryChange = (e: ChangeEvent<HTMLSelectElement>) => {
-		const values = Array.from(
-			e.target.selectedOptions,
-			(option) => option.value
-		);
+	// const handleCategoryChange = (e: ChangeEvent<HTMLSelectElement>) => {
+	// 	const values = Array.from(
+	// 		e.target.selectedOptions,
+	// 		(option) => option.value
+	// 	);
 
-		setSelectedCategories(values);
+	// 	setSelectedCategories(values);
+	// };
+	const handleCategoryChange = (newValues: MultiValue<CategoryOption>) => {
+		setSelectedCategories(newValues.map((option) => option.value));
 	};
 
 	const handleSwitchPage = (dpNumber: number) => setPage(dpNumber);
+
+	const endProducts = page * limit;
+	const startProducts = endProducts - limit;
+	const pageProducts = filteredProducts.slice(startProducts, endProducts);
 
 	useEffect(() => {
 		const localVersion = localStorage.getItem('version');
@@ -152,15 +166,16 @@ const Catalog = (props: CatalogProps) => {
 		}
 	}, [selectedSortType]);
 
-	const endProducts = page * limit;
-	const startProducts = endProducts - limit;
+	useEffect(() => {
+		setTotalCount(filteredProducts.length);
+	}, [filteredProducts, totalCount]);
 
 	return (
 		<div>
 			<h2>Версия Pre-Alpha</h2>
 			<div className={styles.wrapper}>
 				<div className={`${styles.container} ${styles.spacebetween}`}>
-					<select
+					{/* <select
 						id={'categories'}
 						multiple={true}
 						onChange={handleCategoryChange}
@@ -173,7 +188,21 @@ const Catalog = (props: CatalogProps) => {
 								</option>
 							);
 						})}
-					</select>
+					</select> */}
+					<Select
+						onChange={(newValues) =>
+							handleCategoryChange(newValues as MultiValue<CategoryOption>)
+						}
+						isMulti
+						name='colors'
+						options={props.categories.map((category) => ({
+							value: category,
+							label: category,
+						}))}
+						className='basic-multi-select'
+						classNamePrefix='select'
+					/>
+
 					<select onChange={handleSort} id={'sort'}>
 						{Object.entries(sortTypes).map((entry) => (
 							<option key={entry[0]} value={entry[0]}>
@@ -184,7 +213,7 @@ const Catalog = (props: CatalogProps) => {
 				</div>
 
 				<ul className={`${styles.container}`}>
-					{filteredProducts.slice(startProducts, endProducts).map((product) => {
+					{pageProducts.map((product) => {
 						return (
 							<li
 								key={product.sku}
