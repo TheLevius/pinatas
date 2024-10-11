@@ -4,6 +4,10 @@ import { CatalogProps, Product, Version } from './page';
 import { ChangeEvent, useEffect, useState } from 'react';
 import styles from './styles.module.scss';
 import Image from 'next/image';
+import { makeDisplayPageNumbers } from '@/utils/makeDisplayPageNumbers';
+import { relative } from 'path';
+
+const defaultPageRange = 10;
 
 const Catalog = (props: CatalogProps) => {
 	const [filteredProducts, setFilteredProducts] = useState<Product[]>(
@@ -13,6 +17,19 @@ const Catalog = (props: CatalogProps) => {
 	const [selectedSortType, setSelectedSortType] = useState<string>('');
 	const [version] = useState<Version>(props.version);
 	const [favorites, setFavorites] = useState<number[]>([]);
+
+	const [page, setPage] = useState<number>(1);
+	const [limit, setLimit] = useState<number>(4);
+	const [totalCount, setTotalCount] = useState<number>(props.products.length);
+
+	const totalPages = Math.ceil(totalCount / limit);
+	const displayPageRange =
+		totalPages < defaultPageRange ? totalPages : defaultPageRange;
+	const displayPages = makeDisplayPageNumbers(
+		page,
+		totalPages,
+		displayPageRange
+	);
 
 	const sortTypes: Record<
 		string,
@@ -51,6 +68,8 @@ const Catalog = (props: CatalogProps) => {
 
 		setSelectedCategories(values);
 	};
+
+	const handleSwitchPage = (dpNumber: number) => setPage(dpNumber);
 
 	useEffect(() => {
 		const localVersion = localStorage.getItem('version');
@@ -133,53 +152,76 @@ const Catalog = (props: CatalogProps) => {
 			});
 		}
 	}, [selectedSortType]);
+
+	const endProducts = page * limit;
+	const startProducts = endProducts - limit;
+
 	return (
 		<div>
 			<h2>Версия Pre-Alpha</h2>
-			<div>
-				<select
-					id={'categories'}
-					multiple={true}
-					onChange={handleCategoryChange}
-					value={selectedCategories}
-				>
-					{props.categories.map((category) => {
-						return (
-							<option key={category} value={category}>
-								{category}
+			<div className={styles.wrapper}>
+				<div className={`${styles.container} ${styles.spacebetween}`}>
+					<select
+						id={'categories'}
+						multiple={true}
+						onChange={handleCategoryChange}
+						value={selectedCategories}
+					>
+						{props.categories.map((category) => {
+							return (
+								<option key={category} value={category}>
+									{category}
+								</option>
+							);
+						})}
+					</select>
+					<select onChange={handleSort} id={'sort'}>
+						{Object.entries(sortTypes).map((entry) => (
+							<option key={entry[0]} value={entry[0]}>
+								{entry[1].name}
 							</option>
+						))}
+					</select>
+				</div>
+
+				<ul className={`${styles.container}`}>
+					{filteredProducts.slice(startProducts, endProducts).map((product) => {
+						return (
+							<li
+								key={product.sku}
+								className={`${styles.item} ${styles.cardFlex}`}
+							>
+								<Link href={`/catalog/${product.sku}`}>
+									<div className={`${styles.imageContainer}`}>
+										<Image
+											src={`/img/products/pin_bomb_red_45_0.jpg`}
+											alt={product.sku}
+											layout='fill'
+										/>
+									</div>
+									<h2>{product.name}</h2>
+								</Link>
+								<h3 onClick={() => switchFavorite(product.id)}>
+									click to switch {product.favorite ? '♥️' : '♡'}
+								</h3>
+								<h3>{product.price} BYN</h3>
+							</li>
 						);
 					})}
-				</select>
-			</div>
-			<select onChange={handleSort} id={'sort'}>
-				{Object.entries(sortTypes).map((entry) => (
-					<option key={entry[0]} value={entry[0]}>
-						{entry[1].name}
-					</option>
-				))}
-			</select>
-			<ul className={styles.container}>
-				{filteredProducts.map((product) => {
-					return (
-						<li key={product.sku} className={styles.item}>
-							<Link href={`/catalog/${product.sku}`}>
-								<Image
-									src={`/img/products/pin_bomb_red_45_0.jpg`}
-									alt={product.sku}
-									width={250}
-									height={250}
-								/>
-								<h2>{product.name}</h2>
-							</Link>
-							<h3 onClick={() => switchFavorite(product.id)}>
-								click to switch {product.favorite ? '♥️' : '♡'}
-							</h3>
-							<h3>{product.price} BYN</h3>
+				</ul>
+				<ul className={`${styles.container} ${styles.contentCenter}`}>
+					{displayPages.map((dpNumber) => (
+						<li key={dpNumber}>
+							<button
+								onClick={() => handleSwitchPage(dpNumber)}
+								className={styles.pageButton}
+							>
+								{dpNumber}
+							</button>
 						</li>
-					);
-				})}
-			</ul>
+					))}
+				</ul>
+			</div>
 		</div>
 	);
 };
