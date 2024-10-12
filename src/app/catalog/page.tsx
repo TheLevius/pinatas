@@ -12,12 +12,10 @@ export type Product = {
 	favorite: boolean;
 	images: string[];
 };
-export type Version = { current: number; prev: number };
 
 export type CatalogProps = {
 	products: Product[];
 	categories: string[];
-	version: Version;
 };
 
 const CatalogPage = async () => {

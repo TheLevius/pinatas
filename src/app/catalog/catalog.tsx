@@ -1,12 +1,12 @@
 'use client';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
-import { CatalogProps, Product, Version } from './page';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { CatalogProps, Product } from './page';
+import { useEffect, useState } from 'react';
 import styles from './styles.module.scss';
 import Image from 'next/image';
 import { makeDisplayPageNumbers } from '@/utils/makeDisplayPageNumbers';
-import { MultiValue } from 'react-select';
+import { MultiValue, SingleValue } from 'react-select';
 const Select = dynamic(() => import('react-select'), { ssr: false });
 
 type CategoryOption = {
@@ -18,15 +18,14 @@ const defaultPageRange = 10;
 
 const Catalog = (props: CatalogProps) => {
 	const [filteredProducts, setFilteredProducts] = useState<Product[]>(
-		props.products ?? []
+		props.products
 	);
 	const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 	const [selectedSortType, setSelectedSortType] = useState<string>('');
-	const [version] = useState<Version>(props.version);
 	const [favorites, setFavorites] = useState<number[]>([]);
 
 	const [page, setPage] = useState<number>(1);
-	const [limit] = useState<number>(3);
+	const [limit] = useState<number>(8);
 	const [totalCount, setTotalCount] = useState<number>(props.products.length);
 
 	const totalPages = Math.ceil(totalCount / limit);
@@ -62,18 +61,12 @@ const Catalog = (props: CatalogProps) => {
 		});
 	};
 
-	const handleSort = (e: ChangeEvent<HTMLSelectElement>) => {
-		setSelectedSortType(e.target.value);
+	const handleSort = (
+		singleValue: SingleValue<{ value: string; label: string }>
+	) => {
+		setSelectedSortType(singleValue?.value ?? '');
 	};
 
-	// const handleCategoryChange = (e: ChangeEvent<HTMLSelectElement>) => {
-	// 	const values = Array.from(
-	// 		e.target.selectedOptions,
-	// 		(option) => option.value
-	// 	);
-
-	// 	setSelectedCategories(values);
-	// };
 	const handleCategoryChange = (newValues: MultiValue<CategoryOption>) => {
 		setSelectedCategories(newValues.map((option) => option.value));
 	};
@@ -85,10 +78,6 @@ const Catalog = (props: CatalogProps) => {
 	const pageProducts = filteredProducts.slice(startProducts, endProducts);
 
 	useEffect(() => {
-		const localVersion = localStorage.getItem('version');
-		if (localVersion === null || version.current !== Number(localVersion)) {
-			localStorage.setItem('version', JSON.stringify(version));
-		}
 		const selectedCategoriesRaw = localStorage.getItem('selectedCategories');
 		const favoritesRaw = localStorage.getItem('favorites');
 		const selectedSortTypeRaw = localStorage.getItem('selectedSortType');
@@ -175,26 +164,13 @@ const Catalog = (props: CatalogProps) => {
 			<h2>Версия Pre-Alpha</h2>
 			<div className={styles.wrapper}>
 				<div className={`${styles.container} ${styles.spacebetween}`}>
-					{/* <select
-						id={'categories'}
-						multiple={true}
-						onChange={handleCategoryChange}
-						value={selectedCategories}
-					>
-						{props.categories.map((category) => {
-							return (
-								<option key={category} value={category}>
-									{category}
-								</option>
-							);
-						})}
-					</select> */}
 					<Select
 						onChange={(newValues) =>
 							handleCategoryChange(newValues as MultiValue<CategoryOption>)
 						}
 						isMulti
-						name='colors'
+						name='categories'
+						placeholder='Категория'
 						options={props.categories.map((category) => ({
 							value: category,
 							label: category,
@@ -202,14 +178,19 @@ const Catalog = (props: CatalogProps) => {
 						className='basic-multi-select'
 						classNamePrefix='select'
 					/>
-
-					<select onChange={handleSort} id={'sort'}>
-						{Object.entries(sortTypes).map((entry) => (
-							<option key={entry[0]} value={entry[0]}>
-								{entry[1].name}
-							</option>
-						))}
-					</select>
+					<Select
+						onChange={(singleValue) =>
+							handleSort(singleValue as SingleValue<CategoryOption>)
+						}
+						name='sort'
+						placeholder={'Сортировать'}
+						options={Object.entries(sortTypes).map((entry) => ({
+							value: entry[0],
+							label: entry[1].name,
+						}))}
+						className='basic-multi-select'
+						classNamePrefix='select'
+					/>
 				</div>
 
 				<ul className={`${styles.container}`}>
