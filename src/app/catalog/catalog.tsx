@@ -7,7 +7,14 @@ import styles from './styles.module.scss';
 import Image from 'next/image';
 import { makeDisplayPageNumbers } from '@/utils/makeDisplayPageNumbers';
 import { MultiValue, SingleValue } from 'react-select';
+import { useInitFromLocalStorage } from '@/hooks/useLocalStorage';
 const Select = dynamic(() => import('react-select'), { ssr: false });
+
+const counter =
+	(counter = 0) =>
+	() =>
+		++counter;
+const result = counter(0);
 
 const initPage = 1;
 const initLimit = 4;
@@ -49,14 +56,19 @@ const sortComparators: SortComparators = {
 };
 
 type SortComparatorKeys = keyof SortComparators;
-type SelectedSort = SortComparatorKeys | '';
+export type SelectedSort = SortComparatorKeys | '';
 
 const Catalog = (props: CatalogProps) => {
 	const productsRef = useRef(props.products);
+	const [initSelectedSort, initFavoriteIds, initSelectedCategories] =
+		useInitFromLocalStorage(localStorageStateNames, props.categories);
 
-	const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-	const [selectedSortType, setSelectedSortType] = useState<SelectedSort>('');
-	const [favoriteIds, setFavoriteIds] = useState<number[]>([]);
+	const [selectedSort, setSelectedSort] =
+		useState<SelectedSort>(initSelectedSort);
+	const [favoriteIds, setFavoriteIds] = useState<number[]>(initFavoriteIds);
+	const [selectedCategories, setSelectedCategories] = useState<string[]>(
+		initSelectedCategories
+	);
 
 	const [currentPageProducts, setCurrentPageProducts] = useState<Product[]>(
 		productsRef.current.slice(initStartProducts, initEndProducts)
@@ -65,7 +77,6 @@ const Catalog = (props: CatalogProps) => {
 	const [totalCount, setTotalCount] = useState<number>(props.products.length);
 	const [page, setPage] = useState<number>(initPage);
 	const [limit] = useState<number>(initLimit);
-
 	const totalPages = Math.ceil(totalCount / limit);
 	const displayPageRange =
 		totalPages < defaultPageRange ? totalPages : defaultPageRange;
@@ -96,7 +107,7 @@ const Catalog = (props: CatalogProps) => {
 	const handleSort = (singleValue: SingleValue<Option>) => {
 		if (singleValue !== null) {
 			productsRef.current.sort(sortComparators[singleValue.value]);
-			setSelectedSortType(singleValue.value);
+			setSelectedSort(singleValue.value);
 		}
 	};
 
@@ -107,59 +118,38 @@ const Catalog = (props: CatalogProps) => {
 	const handleSwitchPage = (dpNumber: number) => setPage(dpNumber);
 
 	useEffect(() => {
-		const [selectedSortLS, favoriteIdsLS, selectedCategoriesLS] =
-			localStorageStateNames.map((stateName) => {
-				const rawValue = localStorage.getItem(stateName);
-				const isNull = rawValue === null;
-				if (stateName === localStorageStateNames[0]) {
-					return isNull ? '' : JSON.parse(rawValue);
-				}
-				return isNull ? [] : JSON.parse(rawValue);
-			}) as [SelectedSort, number[], string[]];
-
-		if (selectedSortLS !== '') {
-			productsRef.current.sort(sortComparators[selectedSortLS]);
+		if (selectedSort !== '') {
+			productsRef.current.sort(sortComparators[selectedSort]);
 		}
-		setSelectedSortType(selectedSortLS);
-		console.log(favoriteIdsLS);
-		if (favoriteIdsLS.length > 0) {
-			favoriteIdsLS.forEach((favId) =>
-				productsRef.current.some((product) => {
-					if (product.id === favId) {
-						product.favorite = true;
-						return true;
-					}
-					return false;
-				})
-			);
-		}
-		setFavoriteIds(favoriteIdsLS);
 
-		if (selectedCategoriesLS.length > 0) {
+		productsRef.current.forEach((product) => {
+			product.favorite = favoriteIds.includes(product.id);
+		});
+
+		if (selectedCategories.length > 0) {
 			const newSelectedProducts = productsRef.current.filter((product) =>
-				selectedCategoriesLS.includes(product.category)
+				selectedCategories.includes(product.category)
 			);
-			const newTotalCount = newSelectedProducts.length;
-			setTotalCount(newTotalCount);
+			setCurrentPageProducts(
+				newSelectedProducts.slice(startProducts, endProducts)
+			);
+			setTotalCount(newSelectedProducts.length);
 		}
-		setSelectedCategories(selectedCategoriesLS);
 	}, []);
 
 	useEffect(() => {
-		if (selectedSortType !== '') {
-			productsRef.current.sort(sortComparators[selectedSortType]);
+		localStorage.setItem('selectedSort', JSON.stringify(selectedSort));
+		if (selectedSort !== '') {
+			productsRef.current.sort(sortComparators[selectedSort]);
 			setCurrentPageProducts(
 				productsRef.current.slice(startProducts, endProducts)
 			);
 		}
-	}, [selectedSortType]);
+	}, [selectedSort]);
 
 	useEffect(() => {
-		if (favoriteIds.length > 0) {
-			localStorage.setItem('favoriteIds', JSON.stringify(favoriteIds));
-		} else {
-			localStorage.removeItem('favoriteIds');
-		}
+		localStorage.setItem('favoriteIds', JSON.stringify(favoriteIds));
+
 		setCurrentPageProducts((prev) =>
 			prev.map((product) => {
 				product.favorite = favoriteIds.includes(product.id);
@@ -169,18 +159,19 @@ const Catalog = (props: CatalogProps) => {
 	}, [favoriteIds]);
 
 	useEffect(() => {
+		localStorage.setItem(
+			'selectedCategories',
+			JSON.stringify(selectedCategories)
+		);
+
 		let newProducts = productsRef.current;
 		if (selectedCategories.length > 0) {
-			localStorage.setItem(
-				'selectedCategories',
-				JSON.stringify(selectedCategories)
-			);
 			newProducts = newProducts.filter((product) =>
 				selectedCategories.includes(product.category)
 			);
-		} else {
-			localStorage.removeItem('selectedCategories');
 		}
+
+		setPage(initPage);
 		setTotalCount(newProducts.length);
 		setCurrentPageProducts(newProducts.slice(startProducts, endProducts));
 	}, [selectedCategories]);
@@ -190,7 +181,7 @@ const Catalog = (props: CatalogProps) => {
 			productsRef.current.slice(startProducts, endProducts)
 		);
 	}, [page, limit]);
-	console.log('rerender -----');
+	console.log(result());
 	return (
 		<div>
 			<h2>Версия Pre-Alpha</h2>
@@ -203,6 +194,10 @@ const Catalog = (props: CatalogProps) => {
 						isMulti
 						name='categories'
 						placeholder='Категория'
+						value={selectedCategories.map((category) => ({
+							value: category,
+							label: category,
+						}))}
 						options={props.categories.map((category) => ({
 							value: category,
 							label: category,
@@ -216,9 +211,7 @@ const Catalog = (props: CatalogProps) => {
 						}
 						name='sort'
 						placeholder={'Сортировать'}
-						value={sortOptions.find(
-							(option) => option.value === selectedSortType
-						)}
+						value={sortOptions.find((option) => option.value === selectedSort)}
 						options={sortOptions}
 						className='basic-multi-select'
 						classNamePrefix='select'
