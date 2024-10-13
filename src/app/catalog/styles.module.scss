@@ -12,6 +12,7 @@
 }
 .panel {
 	display: flex;
+	justify-content: space-between;
 	grid-column: span 4;
 }
 

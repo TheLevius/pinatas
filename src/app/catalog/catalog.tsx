@@ -1,15 +1,13 @@
 'use client';
 import Link from 'next/link';
-// import dynamic from 'next/dynamic';
 import { CatalogProps, Product } from './page';
 import { useEffect, useRef, useState } from 'react';
 import styles from './styles.module.scss';
 import Image from 'next/image';
 import { makeDisplayPageNumbers } from '@/utils/makeDisplayPageNumbers';
-// import { MultiValue, SingleValue } from 'react-select';
 import { useInitFromLocalStorage } from '@/hooks/useLocalStorage';
-// const Select = dynamic(() => import('react-select'), { ssr: false });
 import { MultiSelect, MultiSelectChangeEvent } from 'primereact/multiselect';
+import { Dropdown } from 'primereact/dropdown';
 
 // const counter =
 // 	(counter = 0) =>
@@ -18,7 +16,7 @@ import { MultiSelect, MultiSelectChangeEvent } from 'primereact/multiselect';
 // const result = counter(0);
 
 const initPage = 1;
-const initLimit = 6;
+const initLimit = 4;
 const initEndProducts = initPage * initLimit;
 const initStartProducts = initEndProducts - initLimit;
 
@@ -35,15 +33,9 @@ const sortOptions = [
 	{ value: 'nameDesc', label: 'Name Desc' },
 	{ value: 'priceAsc', label: 'Price Asc' },
 	{ value: 'priceDesc', label: 'Price Desc' },
-] as const;
+];
 
 type SortValue = (typeof sortOptions)[number]['value'];
-// type SortLabel = (typeof sortOptions)[number]['label'];
-
-// type Option = {
-// 	value: SortValue;
-// 	label: SortLabel;
-// };
 
 type SortComparators = {
 	[key in SortValue]: (a: Product, b: Product) => number;
@@ -64,7 +56,7 @@ const Catalog = (props: CatalogProps) => {
 	const [initSelectedSort, initFavoriteIds, initSelectedCategories] =
 		useInitFromLocalStorage(localStorageStateNames, props.categories);
 
-	const [selectedSort] = useState<SelectedSort>(initSelectedSort);
+	const [selectedSort, setSelectedSort] = useState<string>(initSelectedSort);
 	const [favoriteIds, setFavoriteIds] = useState<number[]>(initFavoriteIds);
 	const [selectedCategories, setSelectedCategories] = useState<string[]>(
 		initSelectedCategories
@@ -104,20 +96,15 @@ const Catalog = (props: CatalogProps) => {
 		);
 	};
 
-	// const handleSort = (singleValue: SingleValue<Option>) => {
-	// 	if (singleValue !== null) {
-	// 		productsRef.current.sort(sortComparators[singleValue.value]);
-	// 		setSelectedSort(singleValue.value);
-	// 	}
-	// };
-
-	// const handleCategoryChange = (newValues: MultiValue<Option>) => {
-	// 	setSelectedCategories(newValues.map((option) => option.value));
-	// };
-	const handleCategoryChange = (values: string[]) => {
-		console.log('values--->: ', values);
-		setSelectedCategories(values.slice());
+	const handleSort = (value: SortValue) => {
+		if (value !== null) {
+			productsRef.current.sort(sortComparators[value]);
+			setSelectedSort(value);
+		}
 	};
+
+	const handleCategoryChange = (values: string[]) =>
+		setSelectedCategories(values);
 
 	const handleSwitchPage = (dpNumber: number) => setPage(dpNumber);
 
@@ -185,7 +172,6 @@ const Catalog = (props: CatalogProps) => {
 			productsRef.current.slice(startProducts, endProducts)
 		);
 	}, [page, limit]);
-	console.log(sortOptions);
 	return (
 		<div className={styles.wrapper}>
 			<h2>Версия Pre-Alpha</h2>
@@ -201,55 +187,16 @@ const Catalog = (props: CatalogProps) => {
 							label: category,
 						}))}
 						optionLabel='label'
-						optionValue='value'
-						placeholder='Select Cities'
-						maxSelectedLabels={3}
-					/>
-					{/* <MultiSelect
-						value={selectedCategories.map((category) => ({
-							value: category,
-							label: category,
-						}))}
-						options={props.categories.map((category) => ({
-							value: category,
-							label: category,
-						}))}
-						onChange={(e) => handleCategoryChange(e.value)}
-						optionLabel='name'
-						display='chip'
-						placeholder='Выбрать категорию'
-						maxSelectedLabels={3}
-						className={`${styles.box} p-multiselect-panel`}
-					/> */}
-					{/* <Select
-						onChange={(newValues) =>
-							handleCategoryChange(newValues as MultiValue<Option>)
-						}
-						isMulti
-						name='categories'
 						placeholder='Категория'
-						value={selectedCategories.map((category) => ({
-							value: category,
-							label: category,
-						}))}
-						options={props.categories.map((category) => ({
-							value: category,
-							label: category,
-						}))}
-						className='basic-multi-select'
-						classNamePrefix='select'
+						maxSelectedLabels={3}
 					/>
-					<Select
-						onChange={(singleValue) =>
-							handleSort(singleValue as SingleValue<Option>)
-						}
-						name='sort'
-						placeholder={'Сортировать'}
-						value={sortOptions.find((option) => option.value === selectedSort)}
+					<Dropdown
+						value={selectedSort}
+						onChange={(e) => handleSort(e.value)}
 						options={sortOptions}
-						className='basic-multi-select'
-						classNamePrefix='select'
-					/> */}
+						optionLabel='label'
+						placeholder='Сортировать'
+					/>
 				</div>
 
 				{currentPageProducts.map((product) => {
