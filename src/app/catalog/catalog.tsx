@@ -6,9 +6,10 @@ import { useEffect, useRef, useState } from 'react';
 import styles from './styles.module.scss';
 import Image from 'next/image';
 import { makeDisplayPageNumbers } from '@/utils/makeDisplayPageNumbers';
-import { MultiValue, SingleValue } from 'react-select';
+// import { MultiValue, SingleValue } from 'react-select';
 import { useInitFromLocalStorage } from '@/hooks/useLocalStorage';
-const Select = dynamic(() => import('react-select'), { ssr: false });
+// const Select = dynamic(() => import('react-select'), { ssr: false });
+import { MultiSelect, MultiSelectChangeEvent } from 'primereact/multiselect';
 
 const counter =
 	(counter = 0) =>
@@ -17,7 +18,7 @@ const counter =
 const result = counter(0);
 
 const initPage = 1;
-const initLimit = 4;
+const initLimit = 6;
 const initEndProducts = initPage * initLimit;
 const initStartProducts = initEndProducts - initLimit;
 
@@ -104,15 +105,19 @@ const Catalog = (props: CatalogProps) => {
 		);
 	};
 
-	const handleSort = (singleValue: SingleValue<Option>) => {
-		if (singleValue !== null) {
-			productsRef.current.sort(sortComparators[singleValue.value]);
-			setSelectedSort(singleValue.value);
-		}
-	};
+	// const handleSort = (singleValue: SingleValue<Option>) => {
+	// 	if (singleValue !== null) {
+	// 		productsRef.current.sort(sortComparators[singleValue.value]);
+	// 		setSelectedSort(singleValue.value);
+	// 	}
+	// };
 
-	const handleCategoryChange = (newValues: MultiValue<Option>) => {
-		setSelectedCategories(newValues.map((option) => option.value));
+	// const handleCategoryChange = (newValues: MultiValue<Option>) => {
+	// 	setSelectedCategories(newValues.map((option) => option.value));
+	// };
+	const handleCategoryChange = (values: string[]) => {
+		console.log('values--->: ', values);
+		setSelectedCategories(values.slice());
 	};
 
 	const handleSwitchPage = (dpNumber: number) => setPage(dpNumber);
@@ -181,13 +186,43 @@ const Catalog = (props: CatalogProps) => {
 			productsRef.current.slice(startProducts, endProducts)
 		);
 	}, [page, limit]);
-	console.log(result());
+
 	return (
-		<div>
+		<div className={styles.wrapper}>
 			<h2>Версия Pre-Alpha</h2>
-			<div className={styles.wrapper}>
-				<div className={`${styles.container} ${styles.spacebetween}`}>
-					<Select
+			<div className={`${styles.container}`}>
+				<div className={`${styles.panel}`}>
+					<MultiSelect
+						value={selectedCategories}
+						onChange={(e: MultiSelectChangeEvent) =>
+							handleCategoryChange(e.value)
+						}
+						options={props.categories.map((category) => ({
+							value: category,
+							label: category,
+						}))}
+						optionLabel='label'
+						optionValue='value'
+						placeholder='Select Cities'
+						maxSelectedLabels={3}
+					/>
+					{/* <MultiSelect
+						value={selectedCategories.map((category) => ({
+							value: category,
+							label: category,
+						}))}
+						options={props.categories.map((category) => ({
+							value: category,
+							label: category,
+						}))}
+						onChange={(e) => handleCategoryChange(e.value)}
+						optionLabel='name'
+						display='chip'
+						placeholder='Выбрать категорию'
+						maxSelectedLabels={3}
+						className={`${styles.box} p-multiselect-panel`}
+					/> */}
+					{/* <Select
 						onChange={(newValues) =>
 							handleCategoryChange(newValues as MultiValue<Option>)
 						}
@@ -215,46 +250,42 @@ const Catalog = (props: CatalogProps) => {
 						options={sortOptions}
 						className='basic-multi-select'
 						classNamePrefix='select'
-					/>
+					/> */}
 				</div>
 
-				<ul className={`${styles.container}`}>
-					{currentPageProducts.map((product) => {
-						return (
-							<li
-								key={product.sku}
-								className={`${styles.item} ${styles.cardFlex}`}
-							>
-								<Link href={`/catalog/${product.sku}`}>
-									<div className={`${styles.imageContainer}`}>
-										<Image
-											src={`/img/products/pin_bomb_red_45_0.jpg`}
-											alt={product.sku}
-											fill
-										/>
-									</div>
-									<h2>{product.name}</h2>
-								</Link>
-								<h3 onClick={() => switchFavorite(product.id)}>
-									click to switch {product.favorite ? '♥️' : '♡'}
-								</h3>
-								<h3>{product.price} BYN</h3>
-							</li>
-						);
-					})}
-				</ul>
-				<ul className={`${styles.container} ${styles.contentCenter}`}>
+				{currentPageProducts.map((product) => {
+					return (
+						<div key={product.sku} className={`${styles.item}`}>
+							<Link href={`/catalog/${product.sku}`}>
+								<div className={`${styles.imageContainer}`}>
+									<Image
+										src={`/img/products/pin_bomb_red_45_0.jpg`}
+										alt={product.sku}
+										fill
+									/>
+								</div>
+								<p>{product.name}</p>
+							</Link>
+							<p onClick={() => switchFavorite(product.id)}>
+								click to switch {product.favorite ? '♥️' : '♡'}
+							</p>
+							<h3>{product.price} BYN</h3>
+						</div>
+					);
+				})}
+				<div
+					className={`${styles.panel} ${styles.panelGap} ${styles.panelContentCenter}`}
+				>
 					{displayPages.map((dpNumber) => (
-						<li key={dpNumber}>
-							<button
-								onClick={() => handleSwitchPage(dpNumber)}
-								className={styles.pageButton}
-							>
-								{dpNumber}
-							</button>
-						</li>
+						<button
+							key={dpNumber}
+							onClick={() => handleSwitchPage(dpNumber)}
+							className={styles.pageButton}
+						>
+							{dpNumber}
+						</button>
 					))}
-				</ul>
+				</div>
 			</div>
 		</div>
 	);

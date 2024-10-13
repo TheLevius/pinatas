@@ -1,6 +1,9 @@
 import fetchCatalog from '@/utils/fetchCatalog';
 import Catalog from './catalog';
 import Link from 'next/link';
+import 'primereact/resources/primereact.min.css';
+import 'primereact/resources/themes/lara-dark-blue/theme.css';
+import 'primeicons/primeicons.css';
 
 export type Product = {
 	id: number;
