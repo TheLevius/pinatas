@@ -124,6 +124,7 @@ const Catalog = (props: CatalogProps) => {
 			setCurrentPageProducts(
 				newSelectedProducts.slice(startProducts, endProducts)
 			);
+			// перенести в инициализацию
 			setTotalCount(newSelectedProducts.length);
 		}
 	}, []);
