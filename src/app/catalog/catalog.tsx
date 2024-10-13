@@ -1,6 +1,6 @@
 'use client';
 import Link from 'next/link';
-import dynamic from 'next/dynamic';
+// import dynamic from 'next/dynamic';
 import { CatalogProps, Product } from './page';
 import { useEffect, useRef, useState } from 'react';
 import styles from './styles.module.scss';
@@ -11,11 +11,11 @@ import { useInitFromLocalStorage } from '@/hooks/useLocalStorage';
 // const Select = dynamic(() => import('react-select'), { ssr: false });
 import { MultiSelect, MultiSelectChangeEvent } from 'primereact/multiselect';
 
-const counter =
-	(counter = 0) =>
-	() =>
-		++counter;
-const result = counter(0);
+// const counter =
+// 	(counter = 0) =>
+// 	() =>
+// 		++counter;
+// const result = counter(0);
 
 const initPage = 1;
 const initLimit = 6;
@@ -38,12 +38,12 @@ const sortOptions = [
 ] as const;
 
 type SortValue = (typeof sortOptions)[number]['value'];
-type SortLabel = (typeof sortOptions)[number]['label'];
+// type SortLabel = (typeof sortOptions)[number]['label'];
 
-type Option = {
-	value: SortValue;
-	label: SortLabel;
-};
+// type Option = {
+// 	value: SortValue;
+// 	label: SortLabel;
+// };
 
 type SortComparators = {
 	[key in SortValue]: (a: Product, b: Product) => number;
@@ -64,8 +64,7 @@ const Catalog = (props: CatalogProps) => {
 	const [initSelectedSort, initFavoriteIds, initSelectedCategories] =
 		useInitFromLocalStorage(localStorageStateNames, props.categories);
 
-	const [selectedSort, setSelectedSort] =
-		useState<SelectedSort>(initSelectedSort);
+	const [selectedSort] = useState<SelectedSort>(initSelectedSort);
 	const [favoriteIds, setFavoriteIds] = useState<number[]>(initFavoriteIds);
 	const [selectedCategories, setSelectedCategories] = useState<string[]>(
 		initSelectedCategories
@@ -186,7 +185,7 @@ const Catalog = (props: CatalogProps) => {
 			productsRef.current.slice(startProducts, endProducts)
 		);
 	}, [page, limit]);
-
+	console.log(sortOptions);
 	return (
 		<div className={styles.wrapper}>
 			<h2>Версия Pre-Alpha</h2>
