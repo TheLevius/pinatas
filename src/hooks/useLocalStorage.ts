@@ -1,3 +1,4 @@
+'use client';
 import { SelectedSort } from '@/app/catalog/catalog';
 
 export const useInitFromLocalStorage = (
@@ -7,6 +8,7 @@ export const useInitFromLocalStorage = (
 	if (typeof window === 'undefined') {
 		return ['', [], []];
 	}
+
 	const localStorageInitials = keys.map((stateName, i) => {
 		const rawValue = localStorage.getItem(stateName);
 		const isNull = rawValue === null;
@@ -18,5 +20,6 @@ export const useInitFromLocalStorage = (
 	localStorageInitials[2] = localStorageInitials[2].filter((category) =>
 		categories.includes(category)
 	);
+
 	return localStorageInitials;
 };

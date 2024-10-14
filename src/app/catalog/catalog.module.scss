@@ -3,9 +3,15 @@
 	grid-template-columns: repeat(4, 1fr);
 	column-gap: 8px;
 	row-gap: 24px;
+	margin: 0 auto;
+	width: 100%;
 	min-width: 360px;
 	max-width: 480px;
-	padding: 12px;
+	padding: 16px;
+	overflow: hidden;
+}
+.header {
+	grid-column: span 4;
 }
 .item {
 	grid-column: span 2;
@@ -17,7 +23,7 @@
 }
 
 .panelGap {
-	gap: 12px;
+	gap: 8px;
 }
 .panelContentCenter {
 	justify-content: center;;
@@ -25,18 +31,15 @@
 .box {
 	width: 100%;
 }
-// .contentCenter {
-// 	justify-content: center;
-// }
-// .wrapper {
-// 	display: flex;
-// 	flex-direction: column;
-// }
-// .cardFlex {
-// 	flex: 0 0 25%;
-// }
-// .cardItem {
-// }
+
+.favoriteButton {
+	position: absolute;
+	padding: 4px;
+	top: 8px;
+	right: 8px;
+	z-index: 10;
+}
+
 .imageContainer {
 	width: 100%;
 	border-radius: 8px;
@@ -52,6 +55,9 @@
 	width: 40px;
 	height: 40px;
 }
-.p-multiselect {
-	background: yellow;
+.myContainerWrapper {
+	[class~="p-multiselect-item"] {
+    color: rgb(55, 200, 7);
+		padding: 25px;
+  }
 }

@@ -1,9 +1,5 @@
 import fetchCatalog from '@/utils/fetchCatalog';
 import Catalog from './catalog';
-import Link from 'next/link';
-import 'primereact/resources/primereact.min.css';
-import 'primereact/resources/themes/lara-light-blue/theme.css';
-import 'primeicons/primeicons.css';
 
 export type Product = {
 	id: number;
@@ -23,13 +19,7 @@ export type CatalogProps = {
 
 const CatalogPage = async () => {
 	const catalog = await fetchCatalog();
-	return (
-		<div>
-			<Link href={'/catalog/favorites'}>Favorites</Link>
-			<h1>Catalog Page</h1>
-			<Catalog {...catalog} />
-		</div>
-	);
+	return <Catalog {...catalog} />;
 };
 
 export default CatalogPage;
