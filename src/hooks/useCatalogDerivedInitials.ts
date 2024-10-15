@@ -2,6 +2,7 @@ import { SelectedSort, sortComparators } from '@/app/catalog/catalog';
 import { Product } from '@/app/catalog/page';
 
 export type CatalogInitials = {
+	initOnlyFavorites: boolean;
 	initSelectedSort: SelectedSort;
 	initFavoriteIds: number[];
 	initSelectedCategories: string[];

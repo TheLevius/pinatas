@@ -1,6 +1,10 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { CatalogProps, Product } from '../page';
+import Breadcrumb from 'antd/es/breadcrumb/Breadcrumb';
+import BreadcrumbItem from 'antd/es/breadcrumb/BreadcrumbItem';
+import Link from 'next/dist/client/link';
+import styles from './favorites.module.scss';
 
 const Favorites = (props: CatalogProps) => {
 	const [favorites, setFavorites] = useState<number[]>([]);
@@ -34,18 +38,29 @@ const Favorites = (props: CatalogProps) => {
 	}, [favorites]);
 
 	return (
-		<div>
-			<ul>
-				{favoriteProducts.map((fp) => (
-					<li key={fp.id}>
-						<h2>{fp.name}</h2>
-						<h3>{fp.price} BYN</h3>
-						<button onClick={() => handleRemoveFavorite(fp.id)}>
-							Delete from favorite
-						</button>
-					</li>
-				))}
-			</ul>
+		<div className={`${styles.container}`}>
+			<div className={`${styles.panel}`}>
+				<Breadcrumb>
+					<BreadcrumbItem>
+						<Link href={'/'}>{'Главная'}</Link>
+					</BreadcrumbItem>
+					<BreadcrumbItem>
+						<Link href={'/catalog'}>{'Каталог'}</Link>
+					</BreadcrumbItem>
+					<BreadcrumbItem>
+						<Link href={'/catalog/favorites'}>{'Избранное'}</Link>
+					</BreadcrumbItem>
+				</Breadcrumb>
+			</div>
+			{/* {favoriteProducts.map((fp) => (
+				<div key={fp.id}>
+					<h2>{fp.name}</h2>
+					<h3>{fp.price} BYN</h3>
+					<button onClick={() => handleRemoveFavorite(fp.id)}>
+						Delete from favorite
+					</button>
+				</div>
+			))} */}
 		</div>
 	);
 };

@@ -1,8 +1,6 @@
+import { AntdRegistry } from '@ant-design/nextjs-registry';
+import Layout, { Content, Footer, Header } from 'antd/es/layout/layout';
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
-import 'primereact/resources/themes/saga-blue/theme.css';
-
-const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
 	title: 'Pinata Catalog',
@@ -16,7 +14,15 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang='en'>
-			<body className={inter.className}>{children}</body>
+			<body>
+				<AntdRegistry>
+					<Layout>
+						<Header>Header</Header>
+						<Content>{children}</Content>
+						<Footer>Footer</Footer>
+					</Layout>
+				</AntdRegistry>
+			</body>
 		</html>
 	);
 }
