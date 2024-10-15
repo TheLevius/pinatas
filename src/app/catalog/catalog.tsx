@@ -3,7 +3,6 @@ import { CatalogProps, Product } from './page';
 import { useEffect, useRef, useState } from 'react';
 import styles from './catalog.module.scss';
 import Image from 'next/image';
-import { CatalogInitials } from '@/hooks/useCatalogDerivedInitials';
 import { FavoriteHeart } from '../components/FavoriteHeart';
 import Select, { SelectProps } from 'antd/es/select';
 import Pagination from 'antd/es/pagination/Pagination';
@@ -26,13 +25,20 @@ export type LocalStorageStateNameCortege = [
 	'favoriteIds',
 	'selectedCategories'
 ];
-export type DerivedInitials = Omit<CatalogInitials, 'products'>;
+
 const lsStateNames: LocalStorageStateNameCortege = [
 	'onlyFavorites',
 	'selectedSort',
 	'favoriteIds',
 	'selectedCategories',
 ];
+
+type InitForms = {
+	onlyFavorites: boolean;
+	selectedSort: SelectedSort;
+	favoriteIds: number[];
+	selectedCategories: string[];
+};
 
 type Option = {
 	value: 'nameAsc' | 'nameDesc' | 'priceAsc' | 'priceDesc';
@@ -61,23 +67,6 @@ type SortComparatorKeys = keyof SortComparators;
 export type SelectedSort = SortComparatorKeys | '';
 
 const Catalog = (props: CatalogProps) => {
-	// const {
-	// 	initSelectedSort,
-	// 	initFavoriteIds,
-	// 	initSelectedCategories,
-	// 	initOnlyFavorites,
-	// } = useInitFromLocalStorage(
-	// 	localStorageStateNames as string[],
-	// 	props.categories
-	// );
-	// const { initProducts, initTotalCount } = useCatalogDerivedInitials({
-	// 	initOnlyFavorites,
-	// 	initSelectedSort,
-	// 	initFavoriteIds,
-	// 	initSelectedCategories,
-	// 	products: props.products,
-	// });
-
 	const [selectedSort, setSelectedSort] = useState<SelectedSort>('');
 	const [favoriteIds, setFavoriteIds] = useState<number[]>([]);
 	const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
@@ -89,22 +78,15 @@ const Catalog = (props: CatalogProps) => {
 	const [currentPageProducts, setCurrentPageProducts] = useState<Product[]>(
 		props.products.slice(initStartProducts, initEndProducts)
 	);
+	const isMounted = useRef(false);
 
 	const endProducts = page * limit;
 	const startProducts = endProducts - limit;
 
 	const switchFavorite = (id: number) => {
-		let result: boolean;
-		productsRef.current.some((product: Product) => {
-			if (product.id === id) {
-				result = !product.favorite;
-				product.favorite = result;
-				return true;
-			}
-			return false;
-		});
+		const product = productsRef.current.find((p) => p.id === id);
 		setFavoriteIds((prev) =>
-			result ? [...prev, id] : prev.filter((favId) => favId !== id)
+			product?.favorite ? prev.filter((favId) => favId !== id) : [...prev, id]
 		);
 	};
 
@@ -113,7 +95,6 @@ const Catalog = (props: CatalogProps) => {
 	};
 
 	const handleSort = (value: SortValue) => {
-		productsRef.current.sort(sortComparators[value]);
 		setSelectedSort(value);
 	};
 
@@ -123,66 +104,53 @@ const Catalog = (props: CatalogProps) => {
 	const handleChangePage = (page: number) => setPage(page);
 
 	useEffect(() => {
-		const initValues: DerivedInitials = {
-			initOnlyFavorites: false,
-			initSelectedSort: '',
-			initFavoriteIds: [],
-			initSelectedCategories: [],
-		};
-		const lsInitials = lsStateNames.reduce((initValues, stateName) => {
-			const rawValue = localStorage.getItem(stateName);
-			const isNull = rawValue === null;
-			switch (stateName) {
-				case lsStateNames[0]: {
-					initValues.initOnlyFavorites = isNull ? false : JSON.parse(rawValue);
-					console.log(initValues.initOnlyFavorites);
-					break;
+		if (!isMounted.current) {
+			const initForms: InitForms = {
+				onlyFavorites: false,
+				selectedSort: '',
+				favoriteIds: [],
+				selectedCategories: [],
+			};
+			lsStateNames.forEach((key) => {
+				const rawValue = localStorage.getItem(key);
+				if (rawValue !== null) {
+					(initForms[key] as InitForms[keyof InitForms]) = JSON.parse(rawValue);
 				}
-				case lsStateNames[1]: {
-					initValues.initSelectedSort = isNull ? '' : JSON.parse(rawValue);
-					break;
-				}
-				case lsStateNames[2]: {
-					initValues.initFavoriteIds = isNull ? [] : JSON.parse(rawValue);
-					break;
-				}
-				case lsStateNames[3]: {
-					initValues.initSelectedCategories = isNull
-						? []
-						: JSON.parse(rawValue).filter((category: string) =>
-								props.categories.includes(category)
-						  );
-					break;
-				}
-			}
-			return initValues;
-		}, initValues as DerivedInitials);
-
-		setOnlyFavorites(lsInitials.initOnlyFavorites);
-		setSelectedSort(lsInitials.initSelectedSort);
-		setFavoriteIds(lsInitials.initFavoriteIds);
-		setSelectedCategories(lsInitials.initSelectedCategories);
+			});
+			isMounted.current = true;
+			setOnlyFavorites(initForms.onlyFavorites);
+			setSelectedSort(initForms.selectedSort);
+			setFavoriteIds(initForms.favoriteIds);
+			setSelectedCategories(initForms.selectedCategories);
+		}
 	}, []);
 
 	useEffect(() => {
 		localStorage.setItem('selectedSort', JSON.stringify(selectedSort));
+
 		if (selectedSort !== '') {
 			productsRef.current.sort(sortComparators[selectedSort]);
-			setCurrentPageProducts(
-				productsRef.current.slice(startProducts, endProducts)
-			);
 		}
+		let newProducts: Product[] = productsRef.current;
+		if (onlyFavorites) {
+			newProducts = newProducts.filter((p) => p.favorite);
+		}
+		setCurrentPageProducts(newProducts.slice(startProducts, endProducts));
+		setPage(initPage);
 	}, [selectedSort]);
 
 	useEffect(() => {
 		localStorage.setItem('favoriteIds', JSON.stringify(favoriteIds));
 
-		setCurrentPageProducts((prev) =>
-			prev.map((product) => {
-				product.favorite = favoriteIds.includes(product.id);
-				return product;
-			})
-		);
+		productsRef.current.forEach((p) => {
+			p.favorite = favoriteIds.includes(p.id);
+		});
+		let newProducts: Product[] = productsRef.current;
+		if (onlyFavorites) {
+			newProducts = newProducts.filter((p) => p.favorite);
+		}
+
+		setCurrentPageProducts(newProducts.slice(startProducts, endProducts));
 	}, [favoriteIds]);
 
 	useEffect(() => {
@@ -190,22 +158,43 @@ const Catalog = (props: CatalogProps) => {
 			'selectedCategories',
 			JSON.stringify(selectedCategories)
 		);
-		localStorage.setItem('onlyFavorites', JSON.stringify(onlyFavorites));
 
-		let newProducts = productsRef.current;
-		if (onlyFavorites) {
-			newProducts = newProducts.filter((product) => product.favorite);
-		}
+		let newProducts: Product[] = productsRef.current;
 		if (selectedCategories.length > 0) {
 			newProducts = newProducts.filter((product) =>
 				selectedCategories.includes(product.category)
 			);
 		}
-
-		setPage(initPage);
-		setTotalCount(newProducts.length);
+		if (onlyFavorites) {
+			newProducts = newProducts.filter((product) => product.favorite);
+		}
 		setCurrentPageProducts(newProducts.slice(startProducts, endProducts));
-	}, [selectedCategories, onlyFavorites, page, limit]);
+		setTotalCount(newProducts.length);
+		setPage(initPage);
+	}, [selectedCategories]);
+
+	useEffect(() => {
+		localStorage.setItem('onlyFavorites', JSON.stringify(onlyFavorites));
+		let newProducts: Product[] = productsRef.current;
+		if (onlyFavorites) {
+			newProducts = newProducts.filter((p) => p.favorite);
+		}
+		setCurrentPageProducts(newProducts.slice(startProducts, endProducts));
+		setTotalCount(newProducts.length);
+		setPage(initPage);
+	}, [onlyFavorites]);
+
+	useEffect(() => {
+		let newProducts = productsRef.current;
+		if (onlyFavorites) {
+			newProducts = newProducts.filter((p) => p.favorite);
+		}
+		setCurrentPageProducts(newProducts.slice(startProducts, endProducts));
+	}, [page, limit]);
+
+	useEffect(() => {
+		setPage(1);
+	}, [limit]);
 
 	return (
 		<div className={`${styles.container}`}>
