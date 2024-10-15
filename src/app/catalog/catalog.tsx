@@ -66,6 +66,12 @@ export const sortComparators: SortComparators = {
 type SortComparatorKeys = keyof SortComparators;
 export type SelectedSort = SortComparatorKeys | '';
 
+const initCount =
+	(c = 0) =>
+	() =>
+		++c;
+const count = initCount(0);
+
 const Catalog = (props: CatalogProps) => {
 	const [selectedSort, setSelectedSort] = useState<SelectedSort>('');
 	const [favoriteIds, setFavoriteIds] = useState<number[]>([]);
@@ -195,7 +201,7 @@ const Catalog = (props: CatalogProps) => {
 	useEffect(() => {
 		setPage(1);
 	}, [limit]);
-
+	console.log('render', count());
 	return (
 		<div className={`${styles.container}`}>
 			<div className={styles.panel}>
@@ -259,7 +265,7 @@ const Catalog = (props: CatalogProps) => {
 										switchFavorite(product.id);
 									}}
 								>
-									<FavoriteHeart filled={product.favorite} />
+									<FavoriteHeart favorite={product.favorite} />
 								</div>
 							</div>
 							<p>{product.name}</p>
