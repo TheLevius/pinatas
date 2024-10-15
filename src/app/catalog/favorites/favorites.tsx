@@ -52,7 +52,7 @@ const Favorites = (props: CatalogProps) => {
 					</BreadcrumbItem>
 				</Breadcrumb>
 			</div>
-			{/* {favoriteProducts.map((fp) => (
+			{favoriteProducts.map((fp) => (
 				<div key={fp.id}>
 					<h2>{fp.name}</h2>
 					<h3>{fp.price} BYN</h3>
@@ -60,7 +60,7 @@ const Favorites = (props: CatalogProps) => {
 						Delete from favorite
 					</button>
 				</div>
-			))} */}
+			))}
 		</div>
 	);
 };

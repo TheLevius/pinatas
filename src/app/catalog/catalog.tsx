@@ -3,11 +3,7 @@ import { CatalogProps, Product } from './page';
 import { useEffect, useRef, useState } from 'react';
 import styles from './catalog.module.scss';
 import Image from 'next/image';
-import { useInitFromLocalStorage } from '@/hooks/useLocalStorage';
-import {
-	CatalogInitials,
-	useCatalogDerivedInitials,
-} from '@/hooks/useCatalogDerivedInitials';
+import { CatalogInitials } from '@/hooks/useCatalogDerivedInitials';
 import { FavoriteHeart } from '../components/FavoriteHeart';
 import Select, { SelectProps } from 'antd/es/select';
 import Pagination from 'antd/es/pagination/Pagination';
