@@ -190,7 +190,6 @@ const Favorites = (props: CatalogProps) => {
 					<Select
 						mode='multiple'
 						allowClear
-						style={{ width: '100%' }}
 						placeholder='Категории'
 						onChange={handleCategoryChange}
 						value={selectedCategories}
