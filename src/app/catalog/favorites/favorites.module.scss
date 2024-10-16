@@ -29,3 +29,38 @@
 .contentCenter {
 	justify-content: center;
 }
+
+.panelGap {
+	gap: 8px;
+}
+
+.box {
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	gap: 8px;
+}
+
+.favoriteButton {
+	position: absolute;
+	padding: 4px;
+	top: 8px;
+	right: 8px;
+	z-index: 10;
+}
+
+.imageContainer {
+	width: 100%;
+	border-radius: 8px;
+	padding-bottom: 125%;
+	position: relative;
+	overflow: hidden;
+}
+.spacebetween {
+	justify-content: space-between;
+}
+
+.pageButton {
+	width: 40px;
+	height: 40px;
+}

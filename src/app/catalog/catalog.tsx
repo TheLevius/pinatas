@@ -10,30 +10,30 @@ import Breadcrumb from 'antd/es/breadcrumb/Breadcrumb';
 import Link from 'next/link';
 import Switch from 'antd/es/switch';
 
-const initPage = 1;
-const initLimit = 4;
-const initEndProducts = initPage * initLimit;
-const initStartProducts = initEndProducts - initLimit;
+export const initPage = 1;
+export const initLimit = 4;
+export const initEndProducts = initPage * initLimit;
+export const initStartProducts = initEndProducts - initLimit;
 
 const breadcrumbItems = [
 	{ title: 'Главная', href: '/' },
 	{ title: 'Каталог', href: '/catalog' },
 ];
-export type LocalStorageStateNameCortege = [
-	'onlyFavorites',
-	'selectedSort',
-	'favoriteIds',
-	'selectedCategories'
-];
-
-const lsStateNames: LocalStorageStateNameCortege = [
-	'onlyFavorites',
-	'selectedSort',
+export type LocalStorageStateNameTuple = [
 	'favoriteIds',
 	'selectedCategories',
+	'selectedSort',
+	'onlyFavorites'
 ];
 
-type InitForms = {
+export const lsStateNames: LocalStorageStateNameTuple = [
+	'favoriteIds',
+	'selectedCategories',
+	'selectedSort',
+	'onlyFavorites',
+];
+
+export type InitForms = {
 	onlyFavorites: boolean;
 	selectedSort: SelectedSort;
 	favoriteIds: number[];
@@ -45,14 +45,14 @@ type Option = {
 	label: string;
 };
 
-const sortOptions: Option[] = [
+export const sortOptions: Option[] = [
 	{ value: 'nameAsc', label: 'название ↑' },
 	{ value: 'nameDesc', label: 'название ↓' },
 	{ value: 'priceAsc', label: 'цена ↑' },
 	{ value: 'priceDesc', label: 'цена ↓' },
 ];
 
-type SortValue = Option['value'];
+export type SortValue = Option['value'];
 type SortComparators = {
 	[key in SortValue]: (a: Product, b: Product) => number;
 };
@@ -112,10 +112,10 @@ const Catalog = (props: CatalogProps) => {
 	useEffect(() => {
 		if (!isMounted.current) {
 			const initForms: InitForms = {
-				onlyFavorites: false,
-				selectedSort: '',
 				favoriteIds: [],
 				selectedCategories: [],
+				selectedSort: '',
+				onlyFavorites: false,
 			};
 			lsStateNames.forEach((key) => {
 				const rawValue = localStorage.getItem(key);
@@ -124,10 +124,10 @@ const Catalog = (props: CatalogProps) => {
 				}
 			});
 			isMounted.current = true;
-			setOnlyFavorites(initForms.onlyFavorites);
-			setSelectedSort(initForms.selectedSort);
 			setFavoriteIds(initForms.favoriteIds);
 			setSelectedCategories(initForms.selectedCategories);
+			setSelectedSort(initForms.selectedSort);
+			setOnlyFavorites(initForms.onlyFavorites);
 		}
 	}, []);
 
@@ -208,7 +208,7 @@ const Catalog = (props: CatalogProps) => {
 				<Breadcrumb items={breadcrumbItems} />
 			</div>
 			<div className={`${styles.panel} ${styles.contentCenter}`}>
-				<Link href={'/catalog/favorites'}>Favorites</Link>
+				<Link href={'/catalog/favorites'}>Избранное</Link>
 			</div>
 
 			<h1 className={styles.header}>Каталог</h1>
