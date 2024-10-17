@@ -7,10 +7,15 @@ import Image from 'next/image';
 import { FavoriteHeart } from '../components/FavoriteHeart';
 import Select, { SelectProps } from 'antd/es/select';
 import Pagination from 'antd/es/pagination/Pagination';
-import Breadcrumb from 'antd/es/breadcrumb/Breadcrumb';
 import Link from 'next/link';
 import Switch from 'antd/es/switch';
 import { initPage, useCatalog } from '@/store/catalogStore';
+import Breadcrumb from 'antd/es/breadcrumb';
+
+export type BreadCrumb = {
+	title: string;
+	href: string;
+};
 
 const breadcrumbItems = [
 	{ title: 'Главная', href: '/' },

@@ -1,5 +1,6 @@
 import fetchCatalog from '@/utils/fetchCatalog';
 import Catalog from './catalog';
+import Head from 'next/head';
 
 export type Product = {
 	id: number;
@@ -19,7 +20,15 @@ export type CatalogProps = {
 
 const CatalogPage = async () => {
 	const catalog = await fetchCatalog();
-	return <Catalog {...catalog} />;
+	return (
+		<>
+			<Head>
+				<title>Каталог Пиньят</title>
+				<meta name='description' content='Каталог Пиньят' />
+			</Head>
+			<Catalog {...catalog} />
+		</>
+	);
 };
 
 export default CatalogPage;
