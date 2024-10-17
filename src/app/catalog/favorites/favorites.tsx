@@ -1,6 +1,6 @@
 'use client';
-import { useEffect, useRef, useState } from 'react';
-import { CatalogProps, Product } from '../page';
+import { useEffect, useRef} from 'react';
+import { CatalogProps } from '../page';
 import Link from 'next/dist/client/link';
 import styles from './favorites.module.scss';
 import Pagination from 'antd/es/pagination/Pagination';
@@ -83,7 +83,7 @@ const Favorites = (props: CatalogProps) => {
 				<h1 className={styles.header}>Избранное</h1>
 				<div className={`${styles.panel} ${styles.spacebetween}`}>
 					<Select
-						className={`${styles.sortSelec}`}
+						className={`${styles.sortSelect}`}
 						onChange={handleSort}
 						placeholder='Сортировать'
 						options={sortOptions}

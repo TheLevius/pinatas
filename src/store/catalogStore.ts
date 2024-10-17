@@ -192,7 +192,7 @@ export const useCatalog = create<State & Actions>((set, get) => ({
 	}: InitForms) =>
 		set(({ products, categories, limit }) => {
 			const newFavoriteIds = new Set(favoriteIds);
-			let initProducts = products.map((p) => {
+			const initProducts = products.map((p) => {
 				p.favorite = newFavoriteIds.has(p.id);
 				return p;
 			});

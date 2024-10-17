@@ -63,15 +63,8 @@ export const sortComparators: SortComparators = {
 type SortComparatorKeys = keyof SortComparators;
 export type SelectedSort = SortComparatorKeys | '';
 
-const initCount =
-	(c = 0) =>
-	() =>
-		++c;
-const count = initCount(0);
-
 const Catalog = (props: CatalogProps) => {
 	const {
-		products,
 		selectedCategories,
 		onlyFavorites,
 		limit,
@@ -117,7 +110,6 @@ const Catalog = (props: CatalogProps) => {
 			setClientSettings(initForms);
 		}
 	}, []);
-	console.log('catalogPage products: ', products);
 	return (
 		<div className={`${styles.container}`}>
 			<div className={styles.panel}>
