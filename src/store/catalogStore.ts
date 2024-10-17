@@ -41,7 +41,7 @@ type Actions = {
 	getFavoriteProducts: () => Product[];
 };
 export const initPage = 1;
-export const initLimit = 2;
+export const initLimit = 12;
 type DerivedProperties = {
 	totalCount: number;
 	page: number;
@@ -148,9 +148,11 @@ export const useCatalog = create<State & Actions>((set, get) => ({
 					favoriteIds.has(p.id)
 				);
 			}
-			selectedProducts = selectedProducts.filter((p) =>
-				selectedCategories.includes(p.category)
-			);
+			if (selectedCategories.length > 0) {
+				selectedProducts = selectedProducts.filter((p) =>
+					selectedCategories.includes(p.category)
+				);	
+			}
 
 			return {
 				selectedCategories,
