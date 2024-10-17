@@ -48,7 +48,6 @@
 	@media (min-width: 1281px) {
 		grid-column: span 3;
 	}
-
 }
 .absButton {
 	position: absolute;
@@ -64,6 +63,11 @@
 
 .panelGap {
 	gap: 8px;
+}
+
+.select {
+	max-width: 100%;
+	
 }
 
 .box {

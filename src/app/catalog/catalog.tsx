@@ -1,6 +1,7 @@
 'use client';
 import { CatalogProps, Product } from './page';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
+
 import styles from './catalog.module.scss';
 import Image from 'next/image';
 import { FavoriteHeart } from '../components/FavoriteHeart';
@@ -9,11 +10,7 @@ import Pagination from 'antd/es/pagination/Pagination';
 import Breadcrumb from 'antd/es/breadcrumb/Breadcrumb';
 import Link from 'next/link';
 import Switch from 'antd/es/switch';
-
-export const initPage = 1;
-export const initLimit = 4;
-export const initEndProducts = initPage * initLimit;
-export const initStartProducts = initEndProducts - initLimit;
+import { initPage, useCatalog } from '@/store/catalogStore';
 
 const breadcrumbItems = [
 	{ title: 'Главная', href: '/' },
@@ -73,36 +70,28 @@ const initCount =
 const count = initCount(0);
 
 const Catalog = (props: CatalogProps) => {
-	const [selectedSort, setSelectedSort] = useState<SelectedSort>('');
-	const [favoriteIds, setFavoriteIds] = useState<number[]>([]);
-	const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-	const [onlyFavorites, setOnlyFavorites] = useState<boolean>(false);
-	const [totalCount, setTotalCount] = useState<number>(props.products.length);
-	const [page, setPage] = useState<number>(initPage);
-	const [limit] = useState<number>(initLimit);
-	const productsRef = useRef(props.products);
-	const [currentPageProducts, setCurrentPageProducts] = useState<Product[]>(
-		props.products.slice(initStartProducts, initEndProducts)
-	);
+	const {
+		products,
+		selectedCategories,
+		onlyFavorites,
+		limit,
+		totalCount,
+		page,
+		currentPageProducts,
+		setProducts,
+		setSelectedSort,
+		setSelectedCategories,
+		switchFavorite,
+		setClientSettings,
+		toggleOnlyFavorites,
+		setPage,
+	} = useCatalog((store) => store);
 	const isMounted = useRef(false);
 
-	const endProducts = page * limit;
-	const startProducts = endProducts - limit;
+	const handleOnlyFavorites = (onlyFavorites: boolean) =>
+		toggleOnlyFavorites(onlyFavorites);
 
-	const switchFavorite = (id: number) => {
-		const product = productsRef.current.find((p) => p.id === id);
-		setFavoriteIds((prev) =>
-			product?.favorite ? prev.filter((favId) => favId !== id) : [...prev, id]
-		);
-	};
-
-	const handleOnlyFavorites = (onlyFavorites: boolean) => {
-		setOnlyFavorites(onlyFavorites);
-	};
-
-	const handleSort = (value: SortValue) => {
-		setSelectedSort(value);
-	};
+	const handleSort = (value: SortValue) => setSelectedSort(value);
 
 	const handleCategoryChange = (value: string[]) =>
 		setSelectedCategories(value);
@@ -124,84 +113,11 @@ const Catalog = (props: CatalogProps) => {
 				}
 			});
 			isMounted.current = true;
-			setFavoriteIds(initForms.favoriteIds);
-			setSelectedCategories(initForms.selectedCategories);
-			setSelectedSort(initForms.selectedSort);
-			setOnlyFavorites(initForms.onlyFavorites);
+			setProducts(props.products);
+			setClientSettings(initForms);
 		}
 	}, []);
-
-	useEffect(() => {
-		localStorage.setItem('selectedSort', JSON.stringify(selectedSort));
-
-		if (selectedSort !== '') {
-			productsRef.current.sort(sortComparators[selectedSort]);
-		}
-		let newProducts: Product[] = productsRef.current;
-		if (onlyFavorites) {
-			newProducts = newProducts.filter((p) => p.favorite);
-		}
-		setCurrentPageProducts(newProducts.slice(startProducts, endProducts));
-		setPage(initPage);
-	}, [selectedSort]);
-
-	useEffect(() => {
-		localStorage.setItem('favoriteIds', JSON.stringify(favoriteIds));
-
-		productsRef.current.forEach((p) => {
-			p.favorite = favoriteIds.includes(p.id);
-		});
-		let newProducts: Product[] = productsRef.current;
-		if (onlyFavorites) {
-			newProducts = newProducts.filter((p) => p.favorite);
-		}
-
-		setCurrentPageProducts(newProducts.slice(startProducts, endProducts));
-	}, [favoriteIds]);
-
-	useEffect(() => {
-		localStorage.setItem(
-			'selectedCategories',
-			JSON.stringify(selectedCategories)
-		);
-
-		let newProducts: Product[] = productsRef.current;
-		if (selectedCategories.length > 0) {
-			newProducts = newProducts.filter((product) =>
-				selectedCategories.includes(product.category)
-			);
-		}
-		if (onlyFavorites) {
-			newProducts = newProducts.filter((product) => product.favorite);
-		}
-		setCurrentPageProducts(newProducts.slice(startProducts, endProducts));
-		setTotalCount(newProducts.length);
-		setPage(initPage);
-	}, [selectedCategories]);
-
-	useEffect(() => {
-		localStorage.setItem('onlyFavorites', JSON.stringify(onlyFavorites));
-		let newProducts: Product[] = productsRef.current;
-		if (onlyFavorites) {
-			newProducts = newProducts.filter((p) => p.favorite);
-		}
-		setCurrentPageProducts(newProducts.slice(startProducts, endProducts));
-		setTotalCount(newProducts.length);
-		setPage(initPage);
-	}, [onlyFavorites]);
-
-	useEffect(() => {
-		let newProducts = productsRef.current;
-		if (onlyFavorites) {
-			newProducts = newProducts.filter((p) => p.favorite);
-		}
-		setCurrentPageProducts(newProducts.slice(startProducts, endProducts));
-	}, [page, limit]);
-
-	useEffect(() => {
-		setPage(1);
-	}, [limit]);
-	console.log('render', count());
+	console.log('catalogPage products: ', products);
 	return (
 		<div className={`${styles.container}`}>
 			<div className={styles.panel}>
