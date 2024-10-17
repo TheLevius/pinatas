@@ -29,7 +29,7 @@ const fetchCatalog = async (): Promise<CatalogProps> => {
 		categories: [],
 	};
 	try {
-		const data = await fetch(DATA_API_URL, { next: { revalidate: 600 } });
+		const data = await fetch(DATA_API_URL, { next: { revalidate: 10 } });
 		const text = await data.text();
 		const data_rows = text.split('\n').map((row) => row.trim().split(','));
 		catalog.products = parseCatalogFromCSV(data_rows);

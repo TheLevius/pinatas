@@ -4,13 +4,17 @@ import Product from './product';
 
 export const generateStaticParams = async () => {
 	const { products } = await fetchCatalog();
-	const params = products.map((p) => ({ product: p.sku, id: p.id }));
+	const params = products.map((p) => ({ product: p.sku }));
 	return params;
 };
 
-const ProductPage = async ({ params }: { params: { sku: string } }) => {
+const ProductPage = async ({
+	params,
+}: {
+	params: { product: string; id: number };
+}) => {
 	const catalog = await fetchCatalog();
-	const product = catalog.products.find((p) => p.sku === params.sku);
+	const product = catalog.products.find((p) => p.sku === params.product);
 	if (!product) {
 		notFound();
 	}
