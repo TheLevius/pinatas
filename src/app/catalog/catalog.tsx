@@ -70,6 +70,7 @@ export type SelectedSort = SortComparatorKeys | '';
 
 const Catalog = (props: CatalogProps) => {
 	const {
+		categories,
 		selectedCategories,
 		onlyFavorites,
 		limit,
@@ -146,7 +147,7 @@ const Catalog = (props: CatalogProps) => {
 					onChange={handleCategoryChange}
 					value={selectedCategories}
 					options={
-						props.categories.map((category) => ({
+						categories.map((category) => ({
 							value: category,
 							label: category,
 						})) as SelectProps['options']

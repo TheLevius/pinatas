@@ -19,6 +19,7 @@ const breadcrumbItems = [
 
 const Favorites = (props: CatalogProps) => {
 	const {
+		categories,
 		selectedCategories,
 		selectedSort,
 		totalCount,
@@ -93,7 +94,7 @@ const Favorites = (props: CatalogProps) => {
 					value={selectedCategories}
 					style={{ width: '100%' }}
 					options={
-						props.categories.map((category) => ({
+						categories.map((category) => ({
 							value: category,
 							label: category,
 						})) as SelectProps['options']

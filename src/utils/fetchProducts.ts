@@ -1,4 +1,4 @@
-import { CatalogProps } from '@/app/catalog/page';
+import { Product } from '@/app/catalog/page';
 
 const DATA_API_URL = `https://docs.google.com/spreadsheets/d/e/2PACX-1vR8UmEz-_HwqidHON5MCNC2piOtEsyqpAtAZ_kOJoo0V0EAxrfL5kYC9XHHIaGwAkRe32eYCM74cN2p/pub?gid=0&single=true&output=csv`;
 
@@ -23,24 +23,32 @@ const parseCatalogFromCSV = (rows: string[][]) => {
 		images: [`${String(row[indexes.sku])}_${0}`],
 	}));
 };
-const fetchCatalog = async (): Promise<CatalogProps> => {
-	const catalog: CatalogProps = {
-		products: [],
-		categories: [],
-	};
-	try {
-		const data = await fetch(DATA_API_URL, { next: { revalidate: 10 } });
-		const text = await data.text();
-		const data_rows = text.split('\n').map((row) => row.trim().split(','));
-		catalog.products = parseCatalogFromCSV(data_rows);
-	} catch (err) {
-		console.error(err);
+let cachedProducts: Product[] = [];
+let fetchPromise: Promise<Product[]> | null = null;
+
+const fetchProducts = async (): Promise<Product[]> => {
+	if (cachedProducts.length > 0) {
+		return cachedProducts;
 	}
-	const uniqueCats = catalog.products.reduce((cat, product) => {
-		cat.add(product.category);
-		return cat;
-	}, new Set<string>());
-	catalog.categories = Array.from(uniqueCats);
-	return catalog;
+
+	if (fetchPromise === null) {
+		fetchPromise = (async () => {
+			try {
+				console.log('------ЗАПРОС------>');
+				const data = await fetch(DATA_API_URL);
+				const text = await data.text();
+				const data_rows = text.split('\n').map((row) => row.trim().split(','));
+				cachedProducts = parseCatalogFromCSV(data_rows);
+				return cachedProducts;
+			} catch (err) {
+				console.error(err);
+				throw err;
+			} finally {
+				fetchPromise = null;
+			}
+		})();
+	}
+
+	return fetchPromise;
 };
-export default fetchCatalog;
+export default fetchProducts;
