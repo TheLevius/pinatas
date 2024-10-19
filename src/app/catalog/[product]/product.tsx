@@ -1,6 +1,5 @@
-// import Image from 'next/image';
 import { Product as ProductProps } from '../../../store/catalogStore';
-import styles from './product.module.scss';
+import styles from './product.module.css';
 import Breadcrumb from 'antd/es/breadcrumb';
 import { BreadCrumb } from '../catalog';
 import { Image as ImageZoom } from 'antd';
@@ -9,6 +8,7 @@ const Product = ({
 	sku,
 	name,
 	price,
+	images,
 	breadCrumbs,
 }: ProductProps & { breadCrumbs: BreadCrumb[] }) => {
 	return (
@@ -22,15 +22,15 @@ const Product = ({
 						<ImageZoom
 							key={n}
 							width={'100%'}
-							src={`/img/products/pin_bomb_red_45_0.jpg`}
+							src={`/img/products/webp_1280/${images[n] ?? images[0]}.webp`}
 							className={`${styles.imgSmall}`}
 						/>
 					))}
 				</div>
-				<div style={{ width: '100%', gridColumn: '2 / -1' }}>
+				<div className={styles.imgContainer}>
 					<ImageZoom
 						width={'100%'}
-						src={`/img/products/pin_bomb_red_45_0.jpg`}
+						src={`/img/products/webp_1280/${images[0]}.webp`}
 						className={`${styles.imgSmall}`}
 					/>
 					{/* <Image

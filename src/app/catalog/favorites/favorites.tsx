@@ -2,7 +2,7 @@
 import { useEffect, useRef } from 'react';
 import { CatalogProps } from '../page';
 import Link from 'next/dist/client/link';
-import styles from './favorites.module.scss';
+import styles from './favorites.module.css';
 import Pagination from 'antd/es/pagination/Pagination';
 import Breadcrumb from 'antd/es/breadcrumb/Breadcrumb';
 import { FavoriteHeart } from '../../components/FavoriteHeart';
@@ -111,7 +111,7 @@ const Favorites = (props: CatalogProps) => {
 						>
 							<div className={`${styles.imageContainer}`}>
 								<Image
-									src={`/img/products/pin_bomb_red_45_0.jpg`}
+									src={`/img/products/webp_1280/${product.images[0]}.webp`}
 									alt={product.sku}
 									fill
 									sizes='(max-width: 480px) 160px, (max-width: 768px) 240px, (max-width: 1280px) 300px, 300px'

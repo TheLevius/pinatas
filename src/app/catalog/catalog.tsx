@@ -2,7 +2,7 @@
 import { CatalogProps } from './page';
 import { useEffect, useRef } from 'react';
 
-import styles from './catalog.module.scss';
+import styles from './catalog.module.css';
 import Image from 'next/image';
 import { FavoriteHeart } from '../components/FavoriteHeart';
 import Select, { SelectProps } from 'antd/es/select';
@@ -128,7 +128,6 @@ const Catalog = (props: CatalogProps) => {
 			<h1 className={styles.header}>Каталог</h1>
 			<div className={`${styles.panel} ${styles.spacebetween}`}>
 				<Select
-					style={{ width: 120 }}
 					onChange={handleSort}
 					placeholder='Сортировать'
 					options={sortOptions}
@@ -164,7 +163,7 @@ const Catalog = (props: CatalogProps) => {
 						>
 							<div className={`${styles.imageContainer}`}>
 								<Image
-									src={`/img/products/webp_1440/${product.images[0]}.webp`}
+									src={`/img/products/webp_1280/${product.images[0]}.webp`}
 									alt={product.sku}
 									fill
 									sizes='(max-width: 480px) 160px, (max-width: 768px) 240px, (max-width: 1280px) 300px, 300px'
