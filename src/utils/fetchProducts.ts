@@ -1,8 +1,8 @@
-import { Product } from '@/app/catalog/page';
+import { Product } from '@/store/catalogStore';
 
 const DATA_API_URL = `https://docs.google.com/spreadsheets/d/e/2PACX-1vR8UmEz-_HwqidHON5MCNC2piOtEsyqpAtAZ_kOJoo0V0EAxrfL5kYC9XHHIaGwAkRe32eYCM74cN2p/pub?gid=0&single=true&output=csv`;
 
-const parseCatalogFromCSV = (rows: string[][]) => {
+export const parseCatalogFromCSV = (rows: string[][]) => {
 	const headers = rows[0];
 	const indexes = {
 		id: headers.indexOf('id'),

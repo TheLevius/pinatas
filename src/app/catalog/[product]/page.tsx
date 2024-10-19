@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import Product from './product';
-import fetchProducts from '@/utils/fetchProducts';
+import { products } from '@/data/readyProducts';
+// import fetchProducts from '@/utils/fetchProducts';
 
 const breadcrumbItems = [
 	{ title: 'Главная', href: '/' },
@@ -12,7 +13,7 @@ type ParamsProps = {
 	};
 };
 export const generateMetadata = async ({ params }: ParamsProps) => {
-	const products = await fetchProducts();
+	// const products = await fetchProducts();
 	const product = products.find((p) => p.sku === params.product);
 	const pinataName = product?.name ?? 'Not Found';
 	return {
@@ -22,7 +23,7 @@ export const generateMetadata = async ({ params }: ParamsProps) => {
 };
 
 export const generateStaticParams = async () => {
-	const products = await fetchProducts();
+	// const products = await fetchProducts();
 	const params = products.map((p) => ({ product: p.sku }));
 	return params;
 };
@@ -32,7 +33,7 @@ const ProductPage = async ({
 }: {
 	params: { product: string; id: number };
 }) => {
-	const products = await fetchProducts();
+	// const products = await fetchProducts();
 	const product = products.find((p) => p.sku === params.product);
 
 	if (!product) {

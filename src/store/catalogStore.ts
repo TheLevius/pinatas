@@ -4,7 +4,7 @@ import {
 	sortComparators,
 } from './../app/catalog/catalog';
 import { create } from 'zustand';
-type Product = {
+export type Product = {
 	id: number;
 	sku: string;
 	name: string;
@@ -12,6 +12,11 @@ type Product = {
 	category: string;
 	description: string;
 	favorite: boolean;
+	images: string[];
+};
+
+export type ProductImages = {
+	sku: string;
 	images: string[];
 };
 
@@ -88,7 +93,7 @@ export const useCatalog = create<State & Actions>((set, get) => ({
 	setProducts: (newProducts: Product[]) =>
 		set(() => ({
 			products: newProducts,
-			categories: Array.from(new Set(newProducts.map((p) => p.category))),
+			categories: [...new Set(newProducts.map((p) => p.category))],
 		})),
 	switchFavorite: (favId) =>
 		set(({ products, favoriteIds, limit, page, onlyFavorites }) => {
@@ -151,7 +156,7 @@ export const useCatalog = create<State & Actions>((set, get) => ({
 			if (selectedCategories.length > 0) {
 				selectedProducts = selectedProducts.filter((p) =>
 					selectedCategories.includes(p.category)
-				);	
+				);
 			}
 
 			return {

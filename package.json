@@ -1,31 +1,35 @@
 {
-  "name": "pinatas",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
-  "dependencies": {
-    "@ant-design/icons": "^5.5.1",
-    "@ant-design/nextjs-registry": "^1.0.1",
-    "antd": "^5.21.4",
-    "next": "14.2.14",
-    "normalize.css": "^8.0.1",
-    "react": "^18",
-    "react-dom": "^18",
-    "sass": "^1.79.4",
-    "sharp": "^0.33.5",
-    "zustand": "^5.0.0"
-  },
-  "devDependencies": {
-    "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
-    "eslint": "^8",
-    "eslint-config-next": "14.2.14",
-    "typescript": "^5"
-  }
+	"name": "pinatas",
+	"version": "0.1.0",
+	"private": true,
+	"scripts": {
+		"dev": "next dev --turbo",
+		"build": "next build",
+		"start": "next start",
+		"lint": "next lint",
+		"parse": "ts-node scripts/parser.ts"
+	},
+	"dependencies": {
+		"@ant-design/icons": "^5.5.1",
+		"@ant-design/nextjs-registry": "^1.0.1",
+		"antd": "^5.21.4",
+		"next": "14.2.15",
+		"normalize.css": "^8.0.1",
+		"react": "^18.3.1",
+		"react-dom": "^18.3.1",
+		"sass": "^1.80.3",
+		"sass-loader": "^16.0.2",
+		"sharp": "^0.33.5",
+		"zustand": "^5.0.0"
+	},
+	"devDependencies": {
+		"@types/node": "^20.16.11",
+		"@types/react": "^18",
+		"@types/react-dom": "^18",
+		"dotenv": "^16.4.5",
+		"eslint": "^8",
+		"eslint-config-next": "14.2.15",
+		"ts-node": "^10.9.2",
+		"typescript": "^5"
+	}
 }

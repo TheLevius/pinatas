@@ -1,23 +1,13 @@
+import { products } from '@/data/readyProducts';
 import Catalog from './catalog';
-import fetchProducts from '@/utils/fetchProducts';
-
-export type Product = {
-	id: number;
-	sku: string;
-	name: string;
-	price: number;
-	category: string;
-	description: string;
-	favorite: boolean;
-	images: string[];
-};
+import { Product } from '@/store/catalogStore';
 
 export type CatalogProps = {
 	products: Product[];
 };
 
 const CatalogPage = async () => {
-	const products = await fetchProducts();
+	// const products = await fetchProducts();
 	return <Catalog products={products} />;
 };
 

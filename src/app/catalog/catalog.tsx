@@ -1,5 +1,5 @@
 'use client';
-import { CatalogProps, Product } from './page';
+import { CatalogProps } from './page';
 import { useEffect, useRef } from 'react';
 
 import styles from './catalog.module.scss';
@@ -9,7 +9,7 @@ import Select, { SelectProps } from 'antd/es/select';
 import Pagination from 'antd/es/pagination/Pagination';
 import Link from 'next/link';
 import Switch from 'antd/es/switch';
-import { initPage, useCatalog } from '@/store/catalogStore';
+import { initPage, Product, useCatalog } from '@/store/catalogStore';
 import Breadcrumb from 'antd/es/breadcrumb';
 
 export type BreadCrumb = {
@@ -164,7 +164,7 @@ const Catalog = (props: CatalogProps) => {
 						>
 							<div className={`${styles.imageContainer}`}>
 								<Image
-									src={`/img/products/pin_bomb_red_45_0.jpg`}
+									src={`/img/products/webp_1440/${product.images[0]}.webp`}
 									alt={product.sku}
 									fill
 									sizes='(max-width: 480px) 160px, (max-width: 768px) 240px, (max-width: 1280px) 300px, 300px'

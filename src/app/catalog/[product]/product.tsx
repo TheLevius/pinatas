@@ -1,5 +1,5 @@
 // import Image from 'next/image';
-import { Product as ProductProps } from '../page';
+import { Product as ProductProps } from '../../../store/catalogStore';
 import styles from './product.module.scss';
 import Breadcrumb from 'antd/es/breadcrumb';
 import { BreadCrumb } from '../catalog';
