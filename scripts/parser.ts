@@ -9,6 +9,11 @@ type Product = {
 	price: number;
 	category: string;
 	description: string;
+	color: string;
+	diameter: number;
+	len: number;
+	depth: number;
+	height: number;
 	favorite: boolean;
 	images: string[];
 };
@@ -32,7 +37,13 @@ const parseCatalogFromCSV = (rows: string[][]): Product[] => {
 		price: headers.indexOf('price'),
 		category: headers.indexOf('category'),
 		description: headers.indexOf('description'),
+		color: headers.indexOf('color'),
+		diameter: headers.indexOf('diameter'),
+		len: headers.indexOf('len'),
+		depth: headers.indexOf('depth'),
+		height: headers.indexOf('height'),
 	};
+	console.log(indexes);
 	return rows.slice(1).map((row) => ({
 		id: Number(row[indexes.id]),
 		sku: String(row[indexes.sku]),
@@ -40,6 +51,11 @@ const parseCatalogFromCSV = (rows: string[][]): Product[] => {
 		price: Number(row[indexes.price]),
 		category: String(row[indexes.category]),
 		description: String(row[indexes.description]),
+		color: String(row[indexes.color]),
+		diameter: Number(row[indexes.diameter] ?? 0),
+		len: Number(row[indexes.len] ?? 0),
+		depth: Number(row[indexes.depth] ?? 0),
+		height: Number(row[indexes.height] ?? 0),
 		favorite: false,
 		images: [`${String(row[indexes.sku])}_${0}`],
 	}));

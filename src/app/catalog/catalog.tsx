@@ -163,7 +163,7 @@ const Catalog = (props: CatalogProps) => {
 						>
 							<div className={`${styles.imageContainer}`}>
 								<Image
-									src={`/img/products/webp_1280/${product.images[0]}.webp`}
+									src={`/img/products/${product.images[0] || 'IMG_1550'}.webp`}
 									alt={product.sku}
 									fill
 									sizes='(max-width: 480px) 160px, (max-width: 768px) 240px, (max-width: 1280px) 300px, 300px'

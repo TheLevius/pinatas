@@ -11,6 +11,10 @@ export type Product = {
 	price: number;
 	category: string;
 	description: string;
+	diameter: number;
+	len: number;
+	depth: number;
+	height: number;
 	favorite: boolean;
 	images: string[];
 };
