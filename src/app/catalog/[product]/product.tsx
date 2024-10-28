@@ -26,7 +26,7 @@ const Product = ({
 				<h1 className={styles.title}>{name}</h1>
 				<h2>{price} BYN</h2>
 				<p>SKU: {sku}</p>
-				{category === 'Сфера' ? (
+				{diameter ? (
 					<p>diameter: {diameter}</p>
 				) : (
 					<>

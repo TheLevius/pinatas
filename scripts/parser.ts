@@ -10,10 +10,10 @@ type Product = {
 	category: string;
 	description: string;
 	color: string;
-	diameter: string;
-	len: string;
-	depth: string;
-	height: string;
+	diameter: number;
+	len: number;
+	depth: number;
+	height: number;
 	favorite: boolean;
 	images: string[];
 };
@@ -30,7 +30,6 @@ const dirPath = join(process.cwd(), 'src', 'data');
 
 const parseCatalogFromCSV = (rows: string[][]): Product[] => {
 	const headers = rows[0];
-	console.log('headers: ', rows[0]);
 	const indexes = {
 		id: headers.indexOf('id'),
 		sku: headers.indexOf('sku'),
@@ -44,26 +43,21 @@ const parseCatalogFromCSV = (rows: string[][]): Product[] => {
 		depth: headers.indexOf('depth'),
 		height: headers.indexOf('height'),
 	};
-	console.log('indexes: ', indexes);
-
-	return rows.slice(1).map((row) => {
-		console.log(row.slice(8), row[indexes.diameter], indexes.diameter);
-		return {
-			id: Number(row[indexes.id]),
-			sku: String(row[indexes.sku]),
-			name: String(row[indexes.name]),
-			price: Number(row[indexes.price]),
-			category: String(row[indexes.category]),
-			description: String(row[indexes.description]),
-			color: String(row[indexes.color]),
-			diameter: row[indexes.diameter],
-			len: row[indexes.len],
-			depth: row[indexes.depth],
-			height: row[indexes.height],
-			favorite: false,
-			images: [`${String(row[indexes.sku])}_${0}`],
-		};
-	});
+	return rows.slice(1).map((row) => ({
+		id: Number(row[indexes.id]),
+		sku: row[indexes.sku],
+		name: row[indexes.name],
+		price: Number(row[indexes.price]),
+		category: row[indexes.category],
+		description: row[indexes.description],
+		color: row[indexes.color],
+		diameter: Number(row[indexes.diameter]) || 0,
+		len: Number(row[indexes.len]) || 0,
+		depth: Number(row[indexes.depth]) || 0,
+		height: Number(row[indexes.height]) || 0,
+		favorite: false,
+		images: [`${String(row[indexes.sku])}_${0}`],
+	}));
 };
 const parseImgLinksFromCSV = (rows: string[][]): ProductImages[] => {
 	return rows.slice(1).map((row) => ({
@@ -78,12 +72,9 @@ const parseImgLinksFromCSV = (rows: string[][]): ProductImages[] => {
 		const textResults = await Promise.all(
 			results.map((result) => result.text())
 		);
-		const dataStrings = textResults.map((text) => {
-			console.log('test: ', text);
-			const res = text.split('\n');
-			console.log('after splitbyn: ', res);
-			return res.map((row) => row.trim().split(','));
-		});
+		const dataStrings = textResults.map((text) =>
+			text.split('\n').map((row) => row.trim().split(','))
+		);
 		return dataStrings;
 	};
 	const productImageParse = ({
