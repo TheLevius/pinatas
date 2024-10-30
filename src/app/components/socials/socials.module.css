@@ -1,0 +1,7 @@
+.socialLinkIcons {
+	color: #a0a0a0;
+	transition: 300ms;
+}
+.socialLinkIcons:hover {
+	color:#5f5f5f;
+}
