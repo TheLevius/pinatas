@@ -7,20 +7,20 @@
 		"build": "next build",
 		"start": "next start",
 		"lint": "next lint",
-		"parse": "ts-node scripts/parser.ts"
+		"parser": "ts-node --esm scripts/parser.ts",
+		"bun-parse": "bun scripts/parser.ts"
 	},
 	"dependencies": {
 		"@ant-design/icons": "^5.5.1",
 		"@ant-design/nextjs-registry": "^1.0.1",
 		"antd": "^5.21.4",
+		"esm": "^3.2.25",
 		"next": "14.2.15",
 		"normalize.css": "^8.0.1",
 		"photoswipe": "^5.4.4",
 		"react": "^18.3.1",
 		"react-dom": "^18.3.1",
 		"react-photoswipe-gallery": "^3.0.2",
-		"sharp": "^0.33.5",
-		"swiper": "^11.1.14",
 		"zustand": "^5.0.0"
 	},
 	"devDependencies": {
@@ -31,6 +31,7 @@
 		"eslint": "^9.13.0",
 		"eslint-config-next": "14.2.15",
 		"ts-node": "^10.9.2",
+		"tsconfig-paths": "^4.2.0",
 		"typescript": "^5"
 	}
 }

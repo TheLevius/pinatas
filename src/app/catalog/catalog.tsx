@@ -121,9 +121,9 @@ const Catalog = (props: CatalogProps) => {
 			<div className={styles.panel}>
 				<Breadcrumb items={breadcrumbItems} />
 			</div>
-			<div className={`${styles.panel} ${styles.contentCenter}`}>
+			{/* <div className={`${styles.panel} ${styles.contentCenter}`}>
 				<Link href={'/catalog/favorites'}>Избранное</Link>
-			</div>
+			</div> */}
 
 			<h1 className={styles.header}>Каталог</h1>
 			<div className={`${styles.panel} ${styles.spacebetween}`}>
@@ -194,6 +194,7 @@ const Catalog = (props: CatalogProps) => {
 					total={totalCount}
 					defaultPageSize={limit}
 					pageSize={limit}
+					showSizeChanger={false}
 					align='center'
 					onChange={handleChangePage}
 				/>

@@ -25,14 +25,14 @@ const Product = ({
 			<div className={styles.infoBox}>
 				<h1 className={styles.title}>{name}</h1>
 				<h2>{price} BYN</h2>
-				<p>SKU: {sku}</p>
+				<p>Артикул: {sku}</p>
 				{diameter ? (
-					<p>diameter: {diameter}</p>
+					<p>Диаметр: {diameter}</p>
 				) : (
 					<>
-						<p>len: {len}</p>
-						<p>depth: {depth}</p>
-						<p>height: {height}</p>
+						<p>Длинна: {len}</p>
+						<p>Глубина: {depth}</p>
+						<p>Высота: {height}</p>
 					</>
 				)}
 			</div>

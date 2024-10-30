@@ -71,9 +71,9 @@ const Favorites = (props: CatalogProps) => {
 			<div className={styles.panel}>
 				<Breadcrumb items={breadcrumbItems} />
 			</div>
-			<div className={`${styles.panel} ${styles.contentCenter}`}>
+			{/* <div className={`${styles.panel} ${styles.contentCenter}`}>
 				<Link href={'/catalog'}>Каталог</Link>
-			</div>
+			</div> */}
 
 			<h1 className={styles.header}>Избранное</h1>
 			<div className={`${styles.panel} ${styles.spacebetween}`}>
@@ -142,6 +142,7 @@ const Favorites = (props: CatalogProps) => {
 					total={totalCount}
 					defaultPageSize={limit}
 					pageSize={limit}
+					showSizeChanger={false}
 					align='center'
 					onChange={handleChangePage}
 				/>
