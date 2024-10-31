@@ -18,7 +18,7 @@ const menuItems = [
 
 const NavigationAnt = () => {
 	return (
-		<nav style={{ flexGrow: '1' }}>
+		<nav>
 			<Menu items={menuItems} />
 		</nav>
 	);

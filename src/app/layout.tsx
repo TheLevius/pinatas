@@ -48,9 +48,11 @@ export default function RootLayout({
 							<Header
 								style={{
 									padding: '0 16px',
+									height: '80px',
 									display: 'flex',
 									flexDirection: 'row',
 									justifyContent: 'space-between',
+									alignItems: 'center',
 									backgroundColor: 'var(--background)',
 								}}
 							>

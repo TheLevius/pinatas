@@ -94,3 +94,8 @@ li {
     color-scheme: dark;
   }
 }
+
+.no-scroll {
+	overflow: hidden;
+	height: 100vh;
+}
