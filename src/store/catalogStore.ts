@@ -1,4 +1,3 @@
-import { modalRootId } from './../app/catalog/layout';
 import {
 	InitForms,
 	SelectedSort,

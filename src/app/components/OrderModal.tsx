@@ -1,14 +1,7 @@
 import Button from 'antd/es/button';
 import ReactDOM from 'react-dom';
-import { ModalRoot } from '../catalog/layout';
 
-const OrderModal = ({
-	onClose,
-	modalRootId,
-}: {
-	onClose: () => void;
-	modalRootId: ModalRoot;
-}) => {
+const OrderModal = ({ onClose }: { onClose: () => void }) => {
 	return ReactDOM.createPortal(
 		<div
 			style={{
@@ -41,7 +34,7 @@ const OrderModal = ({
 				</Button>
 			</div>
 		</div>,
-		document.getElementById(modalRootId)!
+		document.body
 	);
 };
 

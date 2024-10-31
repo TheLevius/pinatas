@@ -1,12 +1,38 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import Header from './components/header/Header';
-import Footer from './components/footer/Footer';
+import { AntdRegistry } from '@ant-design/nextjs-registry';
+import Layout, { Content, Footer, Header } from 'antd/es/layout/layout';
+import { Button, Menu } from 'antd';
+
+import Link from 'next/link';
+import Logo from './components/logo/Logo';
+import Socials from './components/socials/socials';
+import NavigationAnt from './components/navigationant/NavigationAnt';
+import Sider from 'antd/es/layout/Sider';
+import SideNav from './components/sideNav/SideNav';
+import Burger from './components/burger/Burger';
+// import Header from './components/header/Header';
+// import Footer from './components/footer/Footer';
 
 export const metadata: Metadata = {
 	title: 'Pinatas',
 	description: 'Заказать пиньяту',
 };
+const currentYear = new Date().getFullYear();
+const menuItems = [
+	// {
+	// 	label: <Link href='/'>Главная</Link>,
+	// 	key: '/',
+	// },
+	{
+		label: <Link href='/catalog'>Каталог</Link>,
+		key: '/catalog',
+	},
+	{
+		label: <Link href='/catalog/favorites'>Избранное</Link>,
+		key: '/catalog/favorites',
+	},
+];
 
 export default function RootLayout({
 	children,
@@ -16,9 +42,33 @@ export default function RootLayout({
 	return (
 		<html lang='en'>
 			<body>
-				<Header />
-				{children}
-				<Footer />
+				<AntdRegistry>
+					<Layout>
+						<Layout>
+							<Header
+								style={{
+									padding: '0 16px',
+									display: 'flex',
+									flexDirection: 'row',
+									justifyContent: 'space-between',
+									backgroundColor: 'var(--background)',
+								}}
+							>
+								<Logo />
+								<Burger />
+							</Header>
+							<Content>{children}</Content>
+							<Footer className='container'>
+								<Logo />
+								<div style={{ display: 'flex', gap: '16px' }}>
+									<Socials />
+								</div>
+								<div>© {currentYear} Pinatas.by</div>
+							</Footer>
+						</Layout>
+						<SideNav />
+					</Layout>
+				</AntdRegistry>
 			</body>
 		</html>
 	);

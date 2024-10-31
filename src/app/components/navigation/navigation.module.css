@@ -1,0 +1,36 @@
+.container {
+	display: flex;
+	flex-direction: row-reverse;
+	/* position: relative; */
+}
+.holder {
+	position: absolute;
+	right: 0;
+	top: 100%;
+	background-color: var(--background);
+	z-index: 100;
+}
+.navList {
+	display: flex;
+	flex-direction: column;
+}
+.navItem {
+	padding: 16px 0 14px;
+	margin: 0 32px 0 0;
+	border-bottom: 2px solid transparent;
+}
+.navActive {
+	text-decoration: underline;
+}
+.navItem:last-child {
+	margin: 0;
+}
+@media (min-width: 769px ) {
+	.holder {
+		position: static;
+	}
+	.navList {
+		flex-direction: row;
+		
+	}
+}

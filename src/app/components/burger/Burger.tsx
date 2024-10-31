@@ -1,7 +1,10 @@
+'use client';
+import { useNav } from '@/store/navStore';
 import styles from './burger.module.css';
 const Burger = () => {
+	const switchSideCollapsed = useNav((state) => state.switchSideCollapsed);
 	return (
-		<button className={styles.burgerButton}>
+		<button onClick={switchSideCollapsed} className={styles.burgerButton}>
 			<svg
 				width='32'
 				height='32'
