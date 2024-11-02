@@ -1,10 +1,10 @@
 'use client';
-import { MouseEvent, useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import Sider from 'antd/es/layout/Sider';
 import { useNav } from '@/store/navStore';
 import NavigationAnt from '../navigationant/NavigationAnt';
-import Logo from '../logo/Logo';
-import { Button } from 'antd';
+import CloseOutlined from '@ant-design/icons/lib/icons/CloseOutlined';
+import Button from 'antd/es/button';
 
 const SideNav = () => {
 	const { sideCollapsed, switchSideCollapsed, setSideCollapsed } = useNav(
@@ -52,7 +52,7 @@ const SideNav = () => {
 						alignItems: 'center',
 					}}
 				>
-					<Button>x</Button>
+					<Button shape='circle' icon={<CloseOutlined />} size={'large'} />
 				</div>
 				<NavigationAnt />
 			</Sider>

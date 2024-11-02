@@ -143,6 +143,7 @@ const Catalog = (props: CatalogProps) => {
 					allowClear
 					style={{ width: '100%' }}
 					placeholder='Категории'
+					variant='borderless'
 					onChange={handleCategoryChange}
 					value={selectedCategories}
 					options={

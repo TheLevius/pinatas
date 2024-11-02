@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { AntdRegistry } from '@ant-design/nextjs-registry';
 import Layout, { Content, Footer, Header } from 'antd/es/layout/layout';
-import { Button, Menu } from 'antd';
+import { App, Button, Menu } from 'antd';
 
 import Link from 'next/link';
 import Logo from './components/logo/Logo';
@@ -11,6 +11,7 @@ import NavigationAnt from './components/navigationant/NavigationAnt';
 import Sider from 'antd/es/layout/Sider';
 import SideNav from './components/sideNav/SideNav';
 import Burger from './components/burger/Burger';
+import NavTop from './components/navTop/navTop';
 // import Header from './components/header/Header';
 // import Footer from './components/footer/Footer';
 
@@ -43,33 +44,36 @@ export default function RootLayout({
 		<html lang='en'>
 			<body>
 				<AntdRegistry>
-					<Layout>
+					<App>
 						<Layout>
-							<Header
-								style={{
-									padding: '0 16px',
-									height: '80px',
-									display: 'flex',
-									flexDirection: 'row',
-									justifyContent: 'space-between',
-									alignItems: 'center',
-									backgroundColor: 'var(--background)',
-								}}
-							>
-								<Logo />
-								<Burger />
-							</Header>
-							<Content>{children}</Content>
-							<Footer className='container'>
-								<Logo />
-								<div style={{ display: 'flex', gap: '16px' }}>
-									<Socials />
-								</div>
-								<div>© {currentYear} Pinatas.by</div>
-							</Footer>
+							<Layout>
+								<Header
+									style={{
+										padding: '0 16px',
+										height: '80px',
+										display: 'flex',
+										flexDirection: 'row',
+										justifyContent: 'space-between',
+										alignItems: 'center',
+										backgroundColor: 'var(--background)',
+									}}
+								>
+									<Logo />
+									<Burger />
+								</Header>
+								<NavTop />
+								<Content>{children}</Content>
+								<Footer className='container'>
+									<Logo />
+									<div style={{ display: 'flex', gap: '16px' }}>
+										<Socials />
+									</div>
+									<div>© {currentYear} Pinatas.by</div>
+								</Footer>
+							</Layout>
+							{/* <SideNav /> */}
 						</Layout>
-						<SideNav />
-					</Layout>
+					</App>
 				</AntdRegistry>
 			</body>
 		</html>
