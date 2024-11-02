@@ -5,11 +5,32 @@
 }
 .holder {
 	position: absolute;
+	top: 0;
 	right: 0;
-	top: 100%;
-	background-color: var(--background);
+	bottom: 0;
+	will-change: transform;
 	z-index: 100;
+	transform: translateX(100%);
+	transition: 300ms ease;
+	overflow: hidden;
+	background-color: var(--background);
 }
+.navOverlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: rgba(0, 0, 0, 0.5);
+	z-index: 90;
+}
+
+.menuHeader {
+	display: flex;
+	align-items: center;
+	height: var(--headerheight);
+}
+
 .navList {
 	display: flex;
 	flex-direction: column;

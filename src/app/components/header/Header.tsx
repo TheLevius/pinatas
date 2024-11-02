@@ -1,3 +1,4 @@
+import Menu from 'antd/es/menu';
 import Burger from '../burger/Burger';
 import HeaderModalButton from '../HeaderModalButton';
 import Logo from '../logo/Logo';
@@ -8,7 +9,8 @@ const Header = () => {
 		<header className={`container ${styles.holder}`}>
 			<Logo />
 			<Navigation />
-			<HeaderModalButton />
+
+			{/* <HeaderModalButton /> */}
 		</header>
 	);
 };

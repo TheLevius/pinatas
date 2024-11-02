@@ -4,6 +4,6 @@
 	align-items: center;
 	padding-top: 16px;
 	padding-bottom: 16px;
-	height: 80px;
-	position: relative;
+	height: var(--headerheight);
+	background-color: #ffffff;
 }
