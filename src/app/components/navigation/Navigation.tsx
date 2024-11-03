@@ -66,6 +66,7 @@ const Navigation = () => {
 					style={{
 						transform: `translateX(${sideCollapsed ? '100%' : '0'})`,
 						opacity: sideCollapsed ? 0 : 1,
+						maxWidth: sideCollapsed ? 0 : '100%',
 					}}
 				>
 					<div className={styles.menuHeader}>
