@@ -64,6 +64,7 @@ li {
 	max-width: 480px;
 	padding-right: 16px;
 	padding-left: 16px;
+	overflow: hidden;
 }
 @media (min-width: 481px) and (max-width: 768px) {
 	.container {

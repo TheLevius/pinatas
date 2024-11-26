@@ -5,7 +5,7 @@ import Link from 'next/dist/client/link';
 import styles from './favorites.module.css';
 import Pagination from 'antd/es/pagination/Pagination';
 import Breadcrumb from 'antd/es/breadcrumb/Breadcrumb';
-import { FavoriteHeart } from '../../components/FavoriteHeart';
+import { FavoriteHeart } from '../../../components/FavoriteHeart';
 import { InitForms, lsStateNames, sortOptions, SortValue } from '../catalog';
 import Select, { SelectProps } from 'antd/es/select';
 import Image from 'next/image';

@@ -5,13 +5,13 @@ import Layout, { Content, Footer } from 'antd/es/layout/layout';
 import { App, Button, Menu } from 'antd';
 
 import Link from 'next/link';
-import Logo from './components/logo/Logo';
-import Socials from './components/socials/socials';
+import Logo from '../components/logo/Logo';
+import Socials from '../components/socials/socials';
 // import NavigationAnt from './components/navigationant/NavigationAnt';
 // import Sider from 'antd/es/layout/Sider';
 // import SideNav from './components/sideNav/SideNav';
-import Burger from './components/burger/Burger';
-import Header from './components/header/Header';
+import Burger from '../components/burger/Burger';
+import Header from '../components/header/Header';
 
 // import Header from './components/header/Header';
 // import Footer from './components/footer/Footer';

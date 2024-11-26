@@ -4,7 +4,7 @@ import { useEffect, useRef } from 'react';
 
 import styles from './catalog.module.css';
 import Image from 'next/image';
-import { FavoriteHeart } from '../components/FavoriteHeart';
+import { FavoriteHeart } from '../../components/FavoriteHeart';
 import Select, { SelectProps } from 'antd/es/select';
 import Pagination from 'antd/es/pagination/Pagination';
 import Link from 'next/link';
