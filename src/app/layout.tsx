@@ -5,7 +5,6 @@ import Layout, { Content } from 'antd/es/layout/layout';
 import { App, Button, Menu } from 'antd';
 
 import Link from 'next/link';
-import Logo from '../components/logo/Logo';
 import Socials from '../components/socials/socials';
 // import NavigationAnt from './components/navigationant/NavigationAnt';
 // import Sider from 'antd/es/layout/Sider';
