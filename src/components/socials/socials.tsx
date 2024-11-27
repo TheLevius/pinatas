@@ -1,10 +1,15 @@
 import Link from 'next/link';
 import styles from './socials.module.css';
-import { InstagramIcon, TelegramIcon, ViberIcon } from '../icons/socialIcons';
+import {
+	InstagramIcon,
+	SvgProps,
+	TelegramIcon,
+	ViberIcon,
+} from '../icons/socialIcons';
 export type SocialLinkItem = {
 	label: string;
 	href: string;
-	svgIcon: React.FC;
+	svgIcon: React.FC<SvgProps>;
 };
 
 const socialLinkItems: SocialLinkItem[] = [

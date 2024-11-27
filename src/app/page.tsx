@@ -7,7 +7,7 @@ import Reasons from '@/components/landing/reasons/Reasons';
 export default async function Home() {
 	return (
 		<main className={styles.main}>
-			<Link href={`/catalog`}>Catalog</Link>
+			{/* <Link href={`/catalog`}>Catalog</Link> */}
 			<Hero />
 			<Features />
 			<Reasons />

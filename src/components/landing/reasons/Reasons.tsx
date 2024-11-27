@@ -21,8 +21,13 @@ const Reasons = () => (
 		</p>
 		<div className={styles.box}>
 			{reasons.map((el) => (
-				<div className={styles.reasonItem}>
-					<Image src={el.image} alt={el.name} />
+				<div key={el.name} className={styles.reasonItem}>
+					<Image
+						width={156}
+						height={208}
+						src={`/img/products/IMG_1550.webp`}
+						alt={el.name}
+					/>
 					<h4>{el.name}</h4>
 					<p>{el.description}</p>
 				</div>
