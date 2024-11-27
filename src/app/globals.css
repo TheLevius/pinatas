@@ -66,6 +66,9 @@ li {
 	padding-left: 16px;
 	overflow: hidden;
 }
+.textCenter {
+	text-align: center;
+}
 @media (min-width: 481px) and (max-width: 768px) {
 	.container {
 		min-width: 481px;

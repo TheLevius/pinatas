@@ -3,6 +3,7 @@ import styles from './hero.module.css';
 import { ArrowRightOutlined } from '@ant-design/icons';
 
 import Socials from '@/components/socials/socials';
+import Link from 'next/link';
 
 // const sectionPhrases = {
 // 	title: ['Яркие пиньяты', 'для ярких праздников!'],
@@ -15,7 +16,7 @@ import Socials from '@/components/socials/socials';
 
 const Hero = () => {
 	return (
-		<div className={`container ${styles.section} ${styles.textCenter}`}>
+		<div className={`container ${styles.section} textCenter`}>
 			<h1 className={styles.title}>
 				<span>Яркие пиньяты </span>
 				<br className={styles.titleBr} />
@@ -28,22 +29,27 @@ const Hero = () => {
 				<br className={styles.subtitleBr} />
 				<span>{'с крутыми эмоциями'}</span>
 			</h2>
-			<Button
-				style={{
-					fontWeight: 'bold',
-				}}
-				className={styles.btnCta}
-				type='primary'
-				size={'large'}
-				// icon={<ArrowRightOutlined />}
-				iconPosition='end'
-			>
-				<span>Подобрать самую красивую пиньяту</span>
-			</Button>
+			<Link href={'/catalog'}>
+				<Button
+					style={{
+						fontWeight: 'bold',
+						flexDirection: 'row',
+						flexWrap: 'wrap',
+					}}
+					className={styles.btnCta}
+					type='primary'
+					size={'large'}
+					// icon={<ArrowRightOutlined />}
+					iconPosition='end'
+				>
+					<span>Подобрать самую </span>
+					<span>красивую пиньяту</span>
+				</Button>
+			</Link>
 			<div className={styles.contacts}>
-				<h2>+375257098221</h2>
+				<h2>+375 25 7098221</h2>
 				<div className={styles.panel}>
-					<Socials />
+					<Socials width={'32px'} height={'32px'} />
 				</div>
 			</div>
 		</div>

@@ -7,3 +7,7 @@
 	height: var(--headerheight);
 	background-color: #ffffff;
 }
+.logo {
+	display: inline-block;
+	font-size: 20px;
+}

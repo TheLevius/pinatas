@@ -12,9 +12,9 @@ const HeaderModalButton = () => {
 		<>
 			<Button
 				onClick={openModal}
+				size='middle'
 				color='primary'
 				variant='outlined'
-				size='large'
 			>
 				Заказать
 			</Button>

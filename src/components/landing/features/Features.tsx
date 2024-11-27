@@ -16,29 +16,36 @@ const fillers = [
 
 const Features = () => {
 	return (
-		<div className='container'>
-			<h2>Пиньята - это чудесное сочетание:</h2>
+		<div className={`container ${styles.section}`}>
+			<h2 className={styles.title}>
+				<span>Пиньята — </span>
+				<span style={{ whiteSpace: 'nowrap' }}>это чудесное сочетание:</span>
+			</h2>
 			<div className={styles.row}>
 				{combinations.map((el) => (
 					<div key={el.name}>{el.name}</div>
 				))}
 			</div>
-			<h2>Ее делают из картона или папье-маше и заполняют:</h2>
+			<h2 className={styles.subtitle}>
+				<span>Ее делают из картона </span>
+				<br className={styles.breaker} />
+				<span>или папье-маше и заполняют:</span>
+			</h2>
 			<div className={styles.row}>
 				{fillers.map((el) => (
 					<div key={el.name}>{el.name}</div>
 				))}
 			</div>
-			<h3>И еще очень много чем!</h3>
-			<Button type='primary' size='large'>
+			<h3 className={styles.subheader}>И еще очень много чем!</h3>
+			<Button style={{ margin: '24px 0' }} type='primary' size='large'>
 				<span>Чем еще наполнить?</span>
 			</Button>
 			<p>
-				Задача гостей - разбить пиньяту битой и "освободить из плена" подарки и
+				Задача гостей — разбить пиньяту битой и "освободить из плена" подарки и
 				сладости!
 			</p>
 			<p>
-				Будет много шума и веселья - то, что надо для ударной дозы праздничного
+				Будет много шума и веселья — то, что надо для ударной дозы праздничного
 				настроения.
 			</p>
 		</div>

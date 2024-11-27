@@ -30,15 +30,16 @@ const socialLinkItems: SocialLinkItem[] = [
 	},
 ];
 
-const Socials = () => {
+const Socials: React.FC<SvgProps> = (props: SvgProps) => {
 	return socialLinkItems.map((item) => (
 		<Link
 			key={item.label}
 			href={item.href}
 			target='_blank'
 			className={styles.socialLinkIcons}
+			style={{ lineHeight: 0 }}
 		>
-			<item.svgIcon />
+			<item.svgIcon {...props} />
 		</Link>
 	));
 };

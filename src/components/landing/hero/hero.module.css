@@ -3,7 +3,9 @@
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+	padding: 36px 0;
 	min-height: 360px;
+	background-color: rgb(224, 224, 224);
 }
 
 .contacts {
@@ -14,20 +16,18 @@
 
 .panel {
 	display: flex;
-	gap: 16px;
-}
-
-.textCenter {
-	text-align: center;
+	gap: 8px;
 }
 
 .title {
 	font-size: 24px;
 	line-height: 1.2;
+	padding: 16px 0;
 }
 .subtitle {
 	font-size: 16px;
 	line-height: 1.2;
+	padding: 16px 0;
 }
 
 .titleBr {
@@ -36,13 +36,16 @@
 .subtitleBr {
 	display: inline;
 }
+.btnCta {
+	margin: 16px 0;
+}
 
 @media (min-width: 421px) {
-	.subtitleBr {
+	.titleBr {
 		display: none;
 	}
 }
-@media (min-width: 481) {
+@media (min-width: 481px) {
 	.subtitleBr {
 		display: none;
 	}
