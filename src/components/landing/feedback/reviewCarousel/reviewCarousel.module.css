@@ -1,0 +1,26 @@
+.holder {
+	max-width: 840px;
+	margin: 0 auto;
+	padding: 24px 0;
+}
+.imageContainer {
+	width: 100%;
+	padding-bottom: 100%;
+	position: relative;
+	overflow: hidden;
+}
+
+.reviewItem {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+@media (min-width: 481px) {
+	.reviewItem {
+		flex-direction: row;
+	}
+	.imageContainer {
+		padding-bottom: 50%;
+	}
+}

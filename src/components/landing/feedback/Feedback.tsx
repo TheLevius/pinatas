@@ -1,5 +1,5 @@
 import styles from './feedback.module.css';
-import MyCarousel from './MyCarousel';
+import ReviewsCarousel from './reviewCarousel/ReviewsCarousel';
 
 const contentStyle: React.CSSProperties = {
 	margin: 0,
@@ -13,7 +13,7 @@ const contentStyle: React.CSSProperties = {
 const Feedback = () => (
 	<div className={`container textCenter ${styles.section}`}>
 		<h2 className={styles.title}>Эхо восторга</h2>
-		<p>
+		<p className={styles.represent}>
 			<span>Наши пиньяты уже подарили </span>
 			<br className={styles.breaker} />
 			<span>100500 миллионов счастливых моментов, </span>
@@ -23,7 +23,7 @@ const Feedback = () => (
 			<span>Вместо тысячи слов смотрите сами: </span>
 		</p>
 		<div style={{ display: 'block', width: '100%' }}>
-			<MyCarousel />
+			<ReviewsCarousel />
 		</div>
 	</div>
 );
