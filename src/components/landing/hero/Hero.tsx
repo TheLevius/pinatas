@@ -16,7 +16,7 @@ import Link from 'next/link';
 
 const Hero = () => {
 	return (
-		<div className={`container ${styles.section} textCenter`}>
+		<div className={`${styles.section} container textCenter`}>
 			<h1 className={styles.title}>
 				<span>Яркие пиньяты </span>
 				<br className={styles.titleBr} />

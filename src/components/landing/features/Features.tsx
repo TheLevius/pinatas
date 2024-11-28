@@ -1,5 +1,6 @@
 import Button from 'antd/es/button';
 import styles from './features.module.css';
+import Link from 'next/link';
 
 const combinations = [
 	{ name: 'Игрушек', icon: '' },
@@ -38,7 +39,9 @@ const Features = () => {
 			</div>
 			<h3 className={styles.subheader}>И еще очень много чем!</h3>
 			<Button style={{ margin: '24px 0' }} type='primary' size='large'>
-				<span>Чем еще наполнить?</span>
+				<Link href={'/whattofill'}>
+					<span>Чем еще наполнить?</span>
+				</Link>
 			</Button>
 			<p>
 				Задача гостей — разбить пиньяту битой и "освободить из плена" подарки и

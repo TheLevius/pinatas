@@ -53,9 +53,9 @@ export default function RootLayout({
 		<html lang='en'>
 			<body>
 				<AntdRegistry>
-					<App>
-						<Layout>
-							{/* <Header
+					<App className='app'>
+						{/* <Layout style={{ alignItems: 'center' }}> */}
+						{/* <Header
 								style={{
 									padding: '0 16px',
 									height: '80px',
@@ -69,15 +69,16 @@ export default function RootLayout({
 								<Logo />
 								<Burger />
 							</Header> */}
-							<Header />
-							<Content>{children}</Content>
-							<Footer />
-							{/* <Logo />
+						<Header />
+						{/* <Content>{children}</Content> */}
+						{children}
+						<Footer />
+						{/* <Logo />
 								<div style={{ display: 'flex', gap: '16px' }}>
 									<Socials />
 								</div>
 								<div>© {currentYear} Pinatas.by</div> */}
-						</Layout>
+						{/* </Layout> */}
 					</App>
 				</AntdRegistry>
 			</body>
