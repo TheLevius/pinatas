@@ -1,0 +1,20 @@
+.menu {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: flex-start;
+}
+
+.menuItem {
+	padding: 8px 0;
+	margin-left: 32px;
+	font-size: 16px;
+	line-height: 1;
+}
+
+@media (min-width: 769px) {
+	.menu {
+		flex-direction: row;
+	}
+
+}

@@ -2,39 +2,47 @@
 import Link from 'next/link';
 import Burger from '../burger/Burger';
 import styles from './navigation.module.css';
-import Menu from 'antd/es/menu';
+// import Menu from 'antd/es/menu';
 import { useNav } from '@/store/navStore';
 import { useEffect, useRef, useState } from 'react';
-import { Button, Divider } from 'antd';
 import {
 	HeartOutlined,
 	LeftOutlined,
 	UnorderedListOutlined,
 } from '@ant-design/icons';
+import Menu from '../menu/Menu';
+
+// const items = [
+// 	// {
+// 	// 	label: <Link href='/'>Главная</Link>,
+// 	// 	key: '/',
+// 	// },
+// 	{
+// 		label: <Link href='/catalog'>Каталог</Link>,
+// 		key: '/catalog',
+// 		// icon: <UnorderedListOutlined />,
+// 	},
+// 	{
+// 		label: <Link href='/catalog/favorites'>Ваши краши</Link>,
+// 		key: '/catalog/favorites',
+// 		// icon: <HeartOutlined />,
+// 	},
+// 	{
+// 		label: <Link href='/howtoplay'>Как играть</Link>,
+// 		key: '/howtoplay',
+// 	},
+// 	{
+// 		label: <Link href='/whattofill'>Чем наполнять</Link>,
+// 		key: '/whattofill',
+// 	},
+// ];
 
 const items = [
-	// {
-	// 	label: <Link href='/'>Главная</Link>,
-	// 	key: '/',
-	// },
-	{
-		label: <Link href='/catalog'>Каталог</Link>,
-		key: '/catalog',
-		// icon: <UnorderedListOutlined />,
-	},
-	{
-		label: <Link href='/catalog/favorites'>Ваши краши</Link>,
-		key: '/catalog/favorites',
-		// icon: <HeartOutlined />,
-	},
-	{
-		label: <Link href='/howtoplay'>Как играть</Link>,
-		key: '/howtoplay',
-	},
-	{
-		label: <Link href='/whattofill'>Чем наполнять</Link>,
-		key: '/whattofill',
-	},
+	{ path: '/', label: 'Главная' },
+	{ path: '/catalog', label: 'Каталог' },
+	{ path: '/catalog/favorites', label: 'Ваши краши' },
+	{ path: '/howtoplay', label: 'Как играть' },
+	{ path: '/whattofill', label: 'Чем наполнять' },
 ];
 const Navigation = () => {
 	const { sideCollapsed, switchSideCollapsed, setSideCollapsed } = useNav(
@@ -72,8 +80,8 @@ const Navigation = () => {
 					<div className={styles.menuHeader}>
 						<LeftOutlined />
 					</div>
-
-					<Menu items={items} />
+					{<Menu items={items} />}
+					{/* <Menu items={items} /> */}
 				</nav>
 			</div>
 		</>

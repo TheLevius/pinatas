@@ -17,3 +17,9 @@
 .burgerButton:focus {
     outline: none;
 }
+
+@media (min-width: 769px) {
+	.burgerButton.nonableBtn {
+		display: none;
+	}
+}
