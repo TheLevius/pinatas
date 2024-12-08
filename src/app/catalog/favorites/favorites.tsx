@@ -107,30 +107,34 @@ const Favorites = (props: CatalogProps) => {
 					<div key={product.sku} className={`${styles.item}`}>
 						<Link
 							href={`/catalog/${product.sku}`}
-							className={`${styles.imageContainer}`}
+							className={`${styles.linkContainer}`}
 						>
-							<div className={`${styles.imageContainer}`}>
-								<Image
-									src={`/img/products/${product.images[0]}.webp`}
-									alt={product.sku}
-									fill
-									sizes='(max-width: 480px) 160px, (max-width: 768px) 240px, (max-width: 1280px) 300px, 300px'
-									style={{ objectFit: 'cover', objectPosition: 'center' }}
-									priority
-								/>
-								<div
-									className={styles.favoriteButton}
-									onClick={(e) => {
-										e.stopPropagation();
-										e.preventDefault();
-										switchFavorite(product.id);
-									}}
-								>
-									<FavoriteHeart favorite={product.favorite} />
+							<div className={styles.imageWrap}>
+								<div className={`${styles.imageContainer}`}>
+									<Image
+										src={`/img/products/${product.images[0]}.webp`}
+										alt={product.sku}
+										fill
+										sizes='(max-width: 480px) 160px, (max-width: 768px) 240px, (max-width: 1280px) 300px, 300px'
+										style={{ objectFit: 'cover', objectPosition: 'center' }}
+										priority
+									/>
+									<div
+										className={styles.favoriteButton}
+										onClick={(e) => {
+											e.stopPropagation();
+											e.preventDefault();
+											switchFavorite(product.id);
+										}}
+									>
+										<FavoriteHeart favorite={product.favorite} />
+									</div>
 								</div>
 							</div>
-							<p>{product.name}</p>
-							<h3>{product.price} BYN</h3>
+							<div className={styles.detailsColumn}>
+								<p>{product.name}</p>
+								<h3>{product.price} BYN</h3>
+							</div>
 						</Link>
 					</div>
 				);

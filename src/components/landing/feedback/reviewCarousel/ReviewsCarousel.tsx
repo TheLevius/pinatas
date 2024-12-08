@@ -9,24 +9,24 @@ const reviews = [
 		feedbackScreen: '/img/products/IMG_3383.webp',
 	},
 	{
-		eventPhoto: '/img/products/IMG_1550.webp',
-		feedbackScreen: '/img/products/IMG_3383.webp',
+		eventPhoto: '/img/products/IMG_3383.webp',
+		feedbackScreen: '/img/products/IMG_1550.webp',
 	},
 	{
 		eventPhoto: '/img/products/IMG_1550.webp',
 		feedbackScreen: '/img/products/IMG_3383.webp',
 	},
 	{
-		eventPhoto: '/img/products/IMG_1550.webp',
-		feedbackScreen: '/img/products/IMG_3383.webp',
+		eventPhoto: '/img/products/IMG_3383.webp',
+		feedbackScreen: '/img/products/IMG_1550.webp',
 	},
 	{
 		eventPhoto: '/img/products/IMG_1550.webp',
 		feedbackScreen: '/img/products/IMG_3383.webp',
 	},
 	{
-		eventPhoto: '/img/products/IMG_1550.webp',
-		feedbackScreen: '/img/products/IMG_3383.webp',
+		eventPhoto: '/img/products/IMG_3383.webp',
+		feedbackScreen: '/img/products/IMG_1550.webp',
 	},
 ];
 const ReviewCarousel = () => (
