@@ -21,7 +21,7 @@ const Product = ({
 			<div className={styles.panel}>
 				<Breadcrumb items={breadCrumbs} />
 			</div>
-			<ProductGallery />
+			<ProductGallery images={images} />
 			<div className={styles.infoBox}>
 				<h1 className={styles.title}>{name}</h1>
 				<h2>{price} BYN</h2>
@@ -36,6 +36,7 @@ const Product = ({
 					</>
 				)}
 			</div>
+			<div className={styles.priceBox}>{price} BYN</div>
 		</div>
 	);
 };

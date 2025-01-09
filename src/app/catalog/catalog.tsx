@@ -116,6 +116,7 @@ const Catalog = (props: CatalogProps) => {
 			setClientSettings(initForms);
 		}
 	}, []);
+
 	return (
 		<div className={`${styles.container}`}>
 			<div className={styles.panel}>

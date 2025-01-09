@@ -54,7 +54,7 @@ export const parseProductsFromCSV = (rows: string[][]): Product[] => {
 export const parseImgLinksFromCSV = (rows: string[][]): ProductImages[] => {
 	return rows.slice(1).map((row) => ({
 		sku: String(row[0]),
-		images: [row[1]],
+		images: row.filter((v, i) => i > 0 && v.length > 0),
 	}));
 };
 
