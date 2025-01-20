@@ -1,13 +1,13 @@
-import styles from './feedback.module.css';
-import ReviewsCarousel from './reviewCarousel/ReviewsCarousel';
+import styles from "./feedback.module.css";
+import ReviewsCarousel from "./reviewCarousel/ReviewsCarousel";
 
 const contentStyle: React.CSSProperties = {
 	margin: 0,
-	height: '160px',
-	color: '#fff',
-	lineHeight: '160px',
-	textAlign: 'center',
-	background: '#364d79',
+	height: "160px",
+	color: "#fff",
+	lineHeight: "160px",
+	textAlign: "center",
+	background: "#364d79",
 };
 
 const Feedback = () => (
@@ -22,7 +22,7 @@ const Feedback = () => (
 			<br className={styles.breaker} />
 			<span>Вместо тысячи слов смотрите сами: </span>
 		</p>
-		<div style={{ display: 'block', width: '100%' }}>
+		<div style={{ display: "block", width: "100%", padding: "0 20px" }}>
 			<ReviewsCarousel />
 		</div>
 	</div>

@@ -1,24 +1,24 @@
-import type { Metadata } from 'next';
-import './globals.css';
-import { AntdRegistry } from '@ant-design/nextjs-registry';
-import Layout, { Content } from 'antd/es/layout/layout';
-import { App, Button, Menu } from 'antd';
+import type { Metadata } from "next";
+import "./globals.css";
+import { AntdRegistry } from "@ant-design/nextjs-registry";
+import Layout, { Content } from "antd/es/layout/layout";
+import { App, Button, Menu } from "antd";
 
-import Link from 'next/link';
-import Socials from '../components/socials/socials';
+import Link from "next/link";
+import Socials from "../components/socials/socials";
 // import NavigationAnt from './components/navigationant/NavigationAnt';
 // import Sider from 'antd/es/layout/Sider';
 // import SideNav from './components/sideNav/SideNav';
-import Burger from '../components/burger/Burger';
-import Header from '../components/header/Header';
-import Footer from '../components/footer/Footer';
+import Burger from "../components/burger/Burger";
+import Header from "../components/header/Header";
+import Footer from "../components/footer/Footer";
 
 // import Header from './components/header/Header';
 // import Footer from './components/footer/Footer';
 
 export const metadata: Metadata = {
-	title: 'Pinatas',
-	description: 'Заказать пиньяту',
+	title: "Pinatas",
+	description: "Заказать пиньяту",
 };
 const currentYear = new Date().getFullYear();
 const menuItems = [
@@ -27,20 +27,20 @@ const menuItems = [
 	// 	key: '/',
 	// },
 	{
-		label: <Link href='/catalog'>Каталог</Link>,
-		key: '/catalog',
+		label: <Link href="/catalog">Каталог</Link>,
+		key: "/catalog",
 	},
 	{
-		label: <Link href='/catalog/favorites'>Избранное</Link>,
-		key: '/catalog/favorites',
+		label: <Link href="/catalog/favorites">Избранное</Link>,
+		key: "/catalog/favorites",
 	},
 	{
-		label: <Link href='/howtoplay'>Как играть</Link>,
-		key: '/howtoplay',
+		label: <Link href="/howtoplay">Как играть</Link>,
+		key: "/howtoplay",
 	},
 	{
-		label: <Link href='/whattofill'>Чем наполнять</Link>,
-		key: '/whattofill',
+		label: <Link href="/whattofill">Чем наполнять</Link>,
+		key: "/whattofill",
 	},
 ];
 
@@ -50,10 +50,10 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang='en'>
+		<html lang="en">
 			<body>
 				<AntdRegistry>
-					<App className='app'>
+					<App className="app">
 						{/* <Layout style={{ alignItems: 'center' }}> */}
 						{/* <Header
 								style={{

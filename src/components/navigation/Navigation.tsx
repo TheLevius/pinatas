@@ -1,16 +1,16 @@
-'use client';
-import Link from 'next/link';
-import Burger from '../burger/Burger';
-import styles from './navigation.module.css';
+"use client";
+import Link from "next/link";
+import Burger from "../burger/Burger";
+import styles from "./navigation.module.css";
 // import Menu from 'antd/es/menu';
-import { useNav } from '@/store/navStore';
-import { useEffect, useRef, useState } from 'react';
+import { useNav } from "@/store/navStore";
+import { useEffect, useRef, useState } from "react";
 import {
 	HeartOutlined,
 	LeftOutlined,
 	UnorderedListOutlined,
-} from '@ant-design/icons';
-import Menu from '../menu/Menu';
+} from "@ant-design/icons";
+import Menu from "../menu/Menu";
 
 // const items = [
 // 	// {
@@ -38,43 +38,49 @@ import Menu from '../menu/Menu';
 // ];
 
 const items = [
-	{ path: '/', label: 'Главная' },
-	{ path: '/catalog', label: 'Каталог' },
-	{ path: '/catalog/favorites', label: 'Ваши краши' },
-	{ path: '/howtoplay', label: 'Как играть' },
-	{ path: '/whattofill', label: 'Чем наполнять' },
+	{ path: "/", label: "Главная" },
+	{ path: "/catalog", label: "Каталог" },
+	{ path: "/catalog/favorites", label: "Ваши краши" },
+	{ path: "/howtoplay", label: "Как играть" },
+	{ path: "/whattofill", label: "Чем наполнять" },
 ];
 const Navigation = () => {
 	const { sideCollapsed, switchSideCollapsed, setSideCollapsed } = useNav(
 		(state) => state
 	);
 	const handleOverlayClick = () => setSideCollapsed();
-	const handleSideClick = () => switchSideCollapsed();
+	// const handleSideClick = () => switchSideCollapsed();
 
 	useEffect(() => {
 		if (!sideCollapsed) {
-			document.body.classList.add('no-scroll');
+			document.body.classList.add("no-scroll");
 		} else {
-			document.body.classList.remove('no-scroll');
+			document.body.classList.remove("no-scroll");
 		}
 		return () => {
-			document.body.classList.remove('no-scroll');
+			document.body.classList.remove("no-scroll");
 		};
 	}, [sideCollapsed]);
 	return (
 		<>
 			{!sideCollapsed && (
-				<div className={styles.navOverlay} onClick={handleOverlayClick}></div>
+				<div
+					className={styles.navOverlay}
+					onClick={handleOverlayClick}
+				></div>
 			)}
 			<div className={styles.container}>
 				<Burger />
 				<nav
-					onClick={handleSideClick}
+					// onClick={handleSideClick}
 					className={styles.holder}
 					style={{
-						transform: `translateX(${sideCollapsed ? '100%' : '0'})`,
+						// transform: `translateX(${
+						// 	sideCollapsed ? "100%" : "0"
+						// })`,
 						opacity: sideCollapsed ? 0 : 1,
-						maxWidth: sideCollapsed ? 0 : '100%',
+						// maxWidth: sideCollapsed ? 0 : "100%",
+						left: sideCollapsed ? "-100%" : 0,
 					}}
 				>
 					<div className={styles.menuHeader}>

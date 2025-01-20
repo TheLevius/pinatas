@@ -1,4 +1,5 @@
 .menu {
+	align-self: flex-start;
 	display: flex;
 	flex-direction: column;
 	justify-content: flex-start;
@@ -6,8 +7,8 @@
 }
 
 .menuItem {
-	padding: 8px 0;
-	margin-left: 32px;
+	padding: 16px 32px;
+	/* margin-left: 32px; */
 	font-size: 16px;
 	line-height: 1;
 }

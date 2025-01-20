@@ -10,15 +10,16 @@
 	display: flex;
 	position: absolute;
 	top: 0;
-	right: 0;
+	left: 0;
 	bottom: 0;
 	/* min-height: 100vh; */
 	will-change: transform;
 	z-index: 100;
-	transform: translateX(100%);
+	/* transform: translateX(100%); */
 	transition: 300ms ease;
 	overflow: hidden;
-	/* background-color: var(--background); */
+	padding: 20px;
+	background-color: var(--background);
 }
 .navOverlay {
 	position: fixed;

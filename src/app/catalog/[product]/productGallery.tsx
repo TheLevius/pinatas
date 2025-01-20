@@ -1,16 +1,11 @@
-'use client';
-import { Image as AntImage, Carousel } from 'antd';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { FreeMode, Navigation, Thumbs, Pagination } from 'swiper/modules';
-import 'swiper/css';
-import 'swiper/css/pagination';
-import 'swiper/css/free-mode';
-import 'swiper/css/navigation';
-import 'swiper/css/thumbs';
-import styles from './product.module.css';
+"use client";
+import { Image as AntImage, Carousel } from "antd";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { FreeMode, Navigation, Thumbs, Pagination } from "swiper/modules";
+import styles from "./product.module.css";
 
-import { useState } from 'react';
-import Image from 'next/image';
+import { useState } from "react";
+import Image from "next/image";
 
 type ProductGalleryProps = {
 	images: string[];
@@ -45,12 +40,12 @@ const ProductGallery = ({ images }: ProductGalleryProps) => {
 			<div className={styles.imgContainer}>
 				<div className={styles.imgPanelAbs}>
 					<Swiper
-						direction={'vertical'}
+						direction={"vertical"}
 						pagination={{
 							clickable: true,
 						}}
 						modules={[Navigation]}
-						slidesPerView={'auto'}
+						slidesPerView={"auto"}
 						freeMode={true}
 						spaceBetween={16}
 						mousewheel
@@ -67,7 +62,7 @@ const ProductGallery = ({ images }: ProductGalleryProps) => {
 							<SwiperSlide
 								key={el}
 								className={styles.productSlide}
-								style={{ height: '150px' }}
+								style={{ height: "150px" }}
 								onClick={() => setMainImg(el)}
 							>
 								<Image
@@ -90,7 +85,7 @@ const ProductGallery = ({ images }: ProductGalleryProps) => {
 					<AntImage
 						src={`/img/products/${mainImg}.webp`}
 						alt={mainImg}
-						style={{ borderRadius: '8px' }}
+						style={{ borderRadius: "8px" }}
 					/>
 				</AntImage.PreviewGroup>
 			</div>
