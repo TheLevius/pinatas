@@ -49,7 +49,6 @@ const Navigation = () => {
 		(state) => state
 	);
 	const handleOverlayClick = () => setSideCollapsed();
-	// const handleSideClick = () => switchSideCollapsed();
 
 	useEffect(() => {
 		if (!sideCollapsed) {
@@ -72,22 +71,13 @@ const Navigation = () => {
 			<div className={styles.container}>
 				<Burger />
 				<nav
-					// onClick={handleSideClick}
 					className={styles.holder}
-					style={{
-						// transform: `translateX(${
-						// 	sideCollapsed ? "100%" : "0"
-						// })`,
-						opacity: sideCollapsed ? 0 : 1,
-						// maxWidth: sideCollapsed ? 0 : "100%",
-						left: sideCollapsed ? "-100%" : 0,
-					}}
+					style={{ left: sideCollapsed ? "-100%" : 0 }}
 				>
 					<div className={styles.menuHeader}>
 						<LeftOutlined />
 					</div>
 					{<Menu items={items} />}
-					{/* <Menu items={items} /> */}
 				</nav>
 			</div>
 		</>

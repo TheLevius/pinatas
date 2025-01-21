@@ -2,12 +2,15 @@
 	display: flex;
 	flex-direction: row-reverse;
 	align-items: center;
+	flex: 3 2 0;
 	/* position: relative; */
 	/* overflow: hidden; */
 	
 }
 .holder {
 	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -18,7 +21,7 @@
 	/* transform: translateX(100%); */
 	transition: 300ms ease;
 	overflow: hidden;
-	padding: 20px;
+	/* padding: 0 20px; */
 	background-color: var(--background);
 }
 .navOverlay {
@@ -36,8 +39,11 @@
 
 .menuHeader {
 	display: flex;
+	justify-content: flex-end;
 	align-items: center;
-	/* height: var(--headerheight); */
+	padding: 8px 16px;
+	
+	height: var(--headerheight);
 }
 
 .navList {
@@ -60,13 +66,19 @@
 		width: 100%;
 		position: static;
 		flex-direction: row;
-
+		justify-content: flex-start;
+		padding: 0;
+	}
+	.menuHeader {
+		display: none;
 	}
 	.navOverlay {
 		display: none;
 	}
 	.navList {
 		flex-direction: row;
-		
 	}
+	/* .navItem:last-child {
+		margin-right: -16px;
+	} */
 }
