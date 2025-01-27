@@ -43,6 +43,7 @@ const items = [
 	{ path: "/catalog/favorites", label: "Ваши краши" },
 	{ path: "/howtoplay", label: "Как играть" },
 	{ path: "/whattofill", label: "Чем наполнять" },
+	{ path: "/contacts", label: "Контакты" },
 ];
 const Navigation = () => {
 	const { sideCollapsed, switchSideCollapsed, setSideCollapsed } = useNav(

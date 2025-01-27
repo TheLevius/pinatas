@@ -30,7 +30,7 @@
 		flex-direction: row;
 		justify-content: space-between;
 		flex-grow: 1;
-		
+		gap: 0;
 	}
 	
 	li.menuItem a {
@@ -44,5 +44,11 @@
 	}
 	.menuItem:last-child {
 		margin-right: -16px;
+	}
+}
+
+@media (min-width: 960px) {
+	.menu {
+		
 	}
 }

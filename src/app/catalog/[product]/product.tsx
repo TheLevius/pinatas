@@ -1,8 +1,8 @@
-import { Product as ProductProps } from '../../../store/catalogStore';
-import styles from './product.module.css';
-import Breadcrumb from 'antd/es/breadcrumb';
-import { BreadCrumb } from '../catalog';
-import ProductGallery from './productGallery';
+import { Product as ProductProps } from "../../../store/catalogStore";
+import styles from "./product.module.css";
+import Breadcrumb from "antd/es/breadcrumb";
+import { BreadCrumb } from "../catalog";
+import ProductGallery from "./productGallery";
 
 const Product = ({
 	sku,
@@ -22,21 +22,26 @@ const Product = ({
 				<Breadcrumb items={breadCrumbs} />
 			</div>
 			<ProductGallery images={images} />
+
 			<div className={styles.infoBox}>
 				<h1 className={styles.title}>{name}</h1>
-				<h2>{price} BYN</h2>
-				<p>Артикул: {sku}</p>
-				{diameter ? (
-					<p>Диаметр: {diameter}</p>
-				) : (
-					<>
-						<p>Длинна: {len}</p>
-						<p>Глубина: {depth}</p>
-						<p>Высота: {height}</p>
-					</>
-				)}
+				<div className={styles.priceBox}>
+					<h2>{price} BYN</h2>
+				</div>
+
+				<div className={styles.descriptionBox}>
+					<p>Артикул: {sku}</p>
+					{diameter ? (
+						<p>Диаметр: {diameter}</p>
+					) : (
+						<>
+							<p>Длинна: {len}</p>
+							<p>Глубина: {depth}</p>
+							<p>Высота: {height}</p>
+						</>
+					)}
+				</div>
 			</div>
-			<div className={styles.priceBox}>{price} BYN</div>
 		</div>
 	);
 };
