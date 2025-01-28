@@ -3,28 +3,20 @@ import styles from "./product.module.css";
 import Breadcrumb from "antd/es/breadcrumb";
 import { BreadCrumb } from "../catalog";
 import ProductGallery from "./productGallery";
+import ProductInfo from "@/components/productInfo/ProductInfo";
 
 const Product = ({
-	sku,
-	name,
-	price,
-	category,
-	diameter,
-	len,
-	depth,
-	height,
-	images,
+	product,
 	breadCrumbs,
-}: ProductProps & { breadCrumbs: BreadCrumb[] }) => {
+}: { product: ProductProps } & { breadCrumbs: BreadCrumb[] }) => {
 	return (
 		<div className={styles.container}>
 			<div className={styles.panel}>
 				<Breadcrumb items={breadCrumbs} />
 			</div>
-			<ProductGallery images={images} />
+			<ProductGallery images={product.images} />
 
-			<div className={styles.infoBox}>
-				<h1 className={styles.title}>{name}</h1>
+			{/* <h1 className={styles.title}>{name}</h1>
 				<div className={styles.priceBox}>
 					<h2>{price} BYN</h2>
 				</div>
@@ -40,8 +32,8 @@ const Product = ({
 							<p>Высота: {height}</p>
 						</>
 					)}
-				</div>
-			</div>
+				</div> */}
+			<ProductInfo product={product} className={styles.infoBox} />
 		</div>
 	);
 };

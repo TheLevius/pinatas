@@ -166,6 +166,10 @@
 	.priceBox {
 		grid-column: span 5;
 	}
+	.antImage {
+		object-fit: cover;
+		border-radius: 8px;
+	}
 	/* .imgContainer {
 		overflow: hidden;
 		display: flex;
@@ -182,9 +186,7 @@
 	.imgPreviewBox {
 		max-width: 160px;
 	}
-	.antImage {
-		
-	} */
+	*/
 }
 @media (min-width: 641px) {
 	.container {

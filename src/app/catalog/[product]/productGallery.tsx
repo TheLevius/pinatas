@@ -17,7 +17,7 @@ const ProductGallery = ({ images }: ProductGalleryProps) => {
 
 	// const getDirection = (width: number) =>
 	// 	width < 481 || (width > 640 && width < 769) ? "horizontal" : "vertical";
-
+	
 	useEffect(() => {
 		const handleResize = () => {
 			setIsWide(window.innerWidth > 480);
@@ -81,7 +81,8 @@ const ProductGallery = ({ images }: ProductGalleryProps) => {
 						<AntImage
 							src={`/img/products/${mainImg}.webp`}
 							alt={mainImg}
-							style={{ borderRadius: "8px" }}
+							width={"auto"}
+							height={"100%"}
 							className={styles.antImage}
 						/>
 					</AntImage.PreviewGroup>

@@ -43,7 +43,7 @@ const ProductPage = async ({
 		...breadcrumbItems,
 		{ title: product?.name ?? 'Not Found', href: params.product },
 	];
-	return <Product {...product} breadCrumbs={breadCrumbs} />;
+	return <Product product={product} breadCrumbs={breadCrumbs} />;
 };
 
 export default ProductPage;

@@ -1,0 +1,83 @@
+.productInfo {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.top, .middle, .bottom {
+	display: flex;
+	flex-direction: column;
+}
+.top, .middle {
+	gap: 24px;
+}
+.section {
+	display: flex;
+	flex-direction: column;
+}
+.sectionName {
+	font-size: 12px;
+	line-height: 1.25;
+	letter-spacing: 1px;
+	margin-bottom: 8px;
+}
+.badge {
+	display: inline-flex;
+	align-self: flex-start;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	padding: 8px 24px;
+	border-radius: 8px;
+}
+.price {
+	background-color: #4ab84e;
+	color: #ffffff;
+	font-size: 20px;
+	line-height: 1.25;
+	font-weight: 700;
+	text-transform: uppercase;
+}
+.availability {
+	background-color: #bbd72b;
+	color: #ffffff;
+	font-size: 16px;
+	line-height: 1.25;
+	font-weight: 500;
+	text-transform: uppercase;
+}
+.descriptions {
+	display: flex;
+	flex-direction: column;
+}
+.entry {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.descriptions {
+	padding: 16px 24px;
+	border-radius: 8px;
+	background-color: #f6f6f6;
+}
+.prop {
+	flex-shrink: 1;
+}
+.dotted {
+	position: relative;
+	bottom: -6px;
+	flex-grow: 1;
+	margin: 0 4px;
+	/* border-bottom: 1px dotted #000000; */
+	height: 1px;
+	background-image: linear-gradient(to right, black 1px, transparent 1px);
+	background-size: 4px 1px;
+}
+.value {
+	flex-shrink: 1;
+}
+
+.btnOrder {
+	align-self: flex-start;
+}
