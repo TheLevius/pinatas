@@ -1,8 +1,20 @@
-export const fetchProductsAndImages = async (urls: string[]) => {
+// export const fetchProductsAndImages = async (urls: string[]) => {
+// 	const results = await Promise.all(urls.map((url) => fetch(url)));
+// 	const textResults = await Promise.all(
+// 		results.map((result) => result.text())
+// 	);
+// 	const dataStrings = textResults.map((text) =>
+// 		text.split("\n").map((row) => row.trim().split(","))
+// 	);
+// 	return dataStrings;
+// };
+export const fetchTables = async (urls: string[]): Promise<string[][][]> => {
 	const results = await Promise.all(urls.map((url) => fetch(url)));
-	const textResults = await Promise.all(results.map((result) => result.text()));
+	const textResults = await Promise.all(
+		results.map((result) => result.text())
+	);
 	const dataStrings = textResults.map((text) =>
-		text.split('\n').map((row) => row.trim().split(','))
+		text.split("\n").map((row) => row.trim().split(","))
 	);
 	return dataStrings;
 };

@@ -41,17 +41,22 @@ const ProductInfo = ({
 				</div>
 				<div className={styles.section}>
 					<div className={styles.sectionName}>Описание:</div>
-					<div className={styles.descriptions}>
+					<dl className={styles.descriptions}>
 						{keys.map((key) => (
 							<div className={styles.entry} key={key}>
-								<span className={styles.prop}>{ru[key]}</span>
-								<span className={styles.dotted}></span>
-								<span className={styles.value}>
+								<dt className={styles.prop}>{ru[key]}</dt>
+
+								<dd className={styles.value}>
 									{product[key as keyof ProductProps]}
-								</span>
+								</dd>
 							</div>
 						))}
-					</div>
+						<div className={styles.entry}>
+							<div className={styles.prop}>Тест</div>
+
+							<div className={styles.value}>Значение</div>
+						</div>
+					</dl>
 				</div>
 			</div>
 			<div className={styles.bottom}>
