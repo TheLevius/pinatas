@@ -1,16 +1,16 @@
-'use client';
-import { CatalogProps } from './page';
-import { useEffect, useRef } from 'react';
+"use client";
+import { CatalogProps } from "./page";
+import { useEffect, useRef } from "react";
 
-import styles from './catalog.module.css';
-import Image from 'next/image';
-import { FavoriteHeart } from '../../components/FavoriteHeart';
-import Select, { SelectProps } from 'antd/es/select';
-import Pagination from 'antd/es/pagination/Pagination';
-import Link from 'next/link';
-import Switch from 'antd/es/switch';
-import { initPage, Product, useCatalog } from '@/store/catalogStore';
-import Breadcrumb from 'antd/es/breadcrumb';
+import styles from "./catalog.module.css";
+import Image from "next/image";
+import { FavoriteHeart } from "../../components/FavoriteHeart";
+import Select, { SelectProps } from "antd/es/select";
+import Pagination from "antd/es/pagination/Pagination";
+import Link from "next/link";
+import Switch from "antd/es/switch";
+import { initPage, Product, useCatalog } from "@/store/catalogStore";
+import Breadcrumb from "antd/es/breadcrumb";
 
 export type BreadCrumb = {
 	title: string;
@@ -18,21 +18,21 @@ export type BreadCrumb = {
 };
 
 const breadcrumbItems = [
-	{ title: 'Главная', href: '/' },
-	{ title: 'Каталог', href: '/catalog' },
+	{ title: "Главная", href: "/" },
+	{ title: "Каталог", href: "/catalog" },
 ];
 export type LocalStorageStateNameTuple = [
-	'favoriteIds',
-	'selectedCategories',
-	'selectedSort',
-	'onlyFavorites'
+	"favoriteIds",
+	"selectedCategories",
+	"selectedSort",
+	"onlyFavorites"
 ];
 
 export const lsStateNames: LocalStorageStateNameTuple = [
-	'favoriteIds',
-	'selectedCategories',
-	'selectedSort',
-	'onlyFavorites',
+	"favoriteIds",
+	"selectedCategories",
+	"selectedSort",
+	"onlyFavorites",
 ];
 
 export type InitForms = {
@@ -43,18 +43,18 @@ export type InitForms = {
 };
 
 type Option = {
-	value: 'nameAsc' | 'nameDesc' | 'priceAsc' | 'priceDesc';
+	value: "nameAsc" | "nameDesc" | "priceAsc" | "priceDesc";
 	label: string;
 };
 
 export const sortOptions: Option[] = [
-	{ value: 'nameAsc', label: 'название ↑' },
-	{ value: 'nameDesc', label: 'название ↓' },
-	{ value: 'priceAsc', label: 'цена ↑' },
-	{ value: 'priceDesc', label: 'цена ↓' },
+	{ value: "nameAsc", label: "название ↑" },
+	{ value: "nameDesc", label: "название ↓" },
+	{ value: "priceAsc", label: "цена ↑" },
+	{ value: "priceDesc", label: "цена ↓" },
 ];
 
-export type SortValue = Option['value'];
+export type SortValue = Option["value"];
 type SortComparators = {
 	[key in SortValue]: (a: Product, b: Product) => number;
 };
@@ -66,7 +66,7 @@ export const sortComparators: SortComparators = {
 };
 
 type SortComparatorKeys = keyof SortComparators;
-export type SelectedSort = SortComparatorKeys | '';
+export type SelectedSort = SortComparatorKeys | "";
 
 const Catalog = (props: CatalogProps) => {
 	const {
@@ -102,13 +102,14 @@ const Catalog = (props: CatalogProps) => {
 			const initForms: InitForms = {
 				favoriteIds: [],
 				selectedCategories: [],
-				selectedSort: '',
+				selectedSort: "",
 				onlyFavorites: false,
 			};
 			lsStateNames.forEach((key) => {
 				const rawValue = localStorage.getItem(key);
 				if (rawValue !== null) {
-					(initForms[key] as InitForms[keyof InitForms]) = JSON.parse(rawValue);
+					(initForms[key] as InitForms[keyof InitForms]) =
+						JSON.parse(rawValue);
 				}
 			});
 			isMounted.current = true;
@@ -130,28 +131,31 @@ const Catalog = (props: CatalogProps) => {
 			<div className={`${styles.panel} ${styles.spacebetween}`}>
 				<Select
 					onChange={handleSort}
-					placeholder='Сортировать'
+					placeholder="Сортировать"
 					options={sortOptions}
 				/>
 				<div className={`${styles.box}`}>
 					<p>Избранное</p>
-					<Switch checked={onlyFavorites} onChange={handleOnlyFavorites} />
+					<Switch
+						checked={onlyFavorites}
+						onChange={handleOnlyFavorites}
+					/>
 				</div>
 			</div>
 			<div className={`${styles.panel}`}>
 				<Select
-					mode='multiple'
+					mode="multiple"
 					allowClear
-					style={{ width: '100%' }}
-					placeholder='Категории'
-					variant='borderless'
+					style={{ width: "100%" }}
+					placeholder="Категории"
+					variant="borderless"
 					onChange={handleCategoryChange}
 					value={selectedCategories}
 					options={
 						categories.map((category) => ({
 							value: category,
 							label: category,
-						})) as SelectProps['options']
+						})) as SelectProps["options"]
 					}
 				/>
 			</div>
@@ -165,11 +169,16 @@ const Catalog = (props: CatalogProps) => {
 						>
 							<div className={`${styles.imageContainer}`}>
 								<Image
-									src={`/img/products/${product.images[0] || 'IMG_1550'}.webp`}
+									src={`/img/products/${
+										product.images[0] || "IMG_1550"
+									}.webp`}
 									alt={product.sku}
 									fill
-									sizes='(max-width: 480px) 160px, (max-width: 768px) 240px, (max-width: 1280px) 300px, 300px'
-									style={{ objectFit: 'cover', objectPosition: 'center' }}
+									sizes="(max-width: 480px) 160px, (max-width: 768px) 240px, (max-width: 1280px) 300px, 300px"
+									style={{
+										objectFit: "cover",
+										objectPosition: "center",
+									}}
 									priority
 								/>
 								<div
@@ -180,7 +189,9 @@ const Catalog = (props: CatalogProps) => {
 										switchFavorite(product.id);
 									}}
 								>
-									<FavoriteHeart favorite={product.favorite} />
+									<FavoriteHeart
+										favorite={product.favorite}
+									/>
 								</div>
 							</div>
 							<p>{product.name}</p>
@@ -197,7 +208,7 @@ const Catalog = (props: CatalogProps) => {
 					defaultPageSize={limit}
 					pageSize={limit}
 					showSizeChanger={false}
-					align='center'
+					align="center"
 					onChange={handleChangePage}
 				/>
 			</div>

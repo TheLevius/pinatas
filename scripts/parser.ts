@@ -1,5 +1,8 @@
+import { Product, ReasonsForPinata } from "./../src/utils/catalogParsers";
+import { ProductImages } from "./../src/store/catalogStore";
 import { writeFile } from "node:fs/promises";
 import { join } from "node:path";
+import Papa from "papaparse";
 
 import * as dotenv from "dotenv";
 import { fetchTables } from "@/utils/fetchCatalog";
@@ -25,17 +28,75 @@ const csvURLTables = csvTables.map((entry) => {
 const dirPath = join(process.cwd(), "src", "data");
 
 (async () => {
-	const tableStrings = await fetchTables(csvURLTables);
-	const currentDb = getCurrentDb(tableStrings, dbKeyArray);
-
-	const productRelImages = productAndImageJoin(currentDb);
-
-	const db = {
-		products: productRelImages,
-		feedback: currentDb.feedback,
-		reasonForPinata: currentDb.reasonsForPinata,
+	const results = await Promise.all(csvURLTables.map((url) => fetch(url)));
+	const textResults = await Promise.all(
+		results.map((result) => result.text())
+	);
+	const numFields = ["id", "price", "diameter", "len", "depth", "height"];
+	const zeroValues = ["price", "diameter", "len", "depth", "height"];
+	const options = {
+		delimiter: ",",
+		header: true,
+		transformHeader: (header: string) => header.trim(),
+		transform: (v: string | null, field: string) => {
+			if (v === null) {
+				return zeroValues.includes(field) ? 0 : "";
+			}
+			if (numFields.includes(field)) {
+				return Number(v);
+			}
+			if (v === "FALSE") {
+				return false;
+			}
+			return v;
+		},
+		dynamicTyping: false,
+		skipEmptyLines: true,
+		comments: "#",
 	};
-	const dbStr = JSON.stringify(db);
+	const {
+		0: products,
+		1: productImages,
+		2: reasonsForPinata,
+		3: feedback,
+	} = textResults.map((text) => Papa.parse(text, options));
+
+	// const tableStrings = await fetchTables(csvURLTables);
+	// const currentDb = getCurrentDb(tableStrings, dbKeyArray);
+
+	// const productRelImages = productAndImageJoin(currentDb);
+
+	// const db = {
+	// 	products: productRelImages,
+	// 	feedback: currentDb.feedback,
+	// 	reasonForPinata: currentDb.reasonsForPinata,
+	// };
+	const productImageArrays: string[][] = (
+		productImages.data as Record<string, string>[]
+	).map((productImage: Record<string, string>) =>
+		Object.values(productImage).filter(Boolean)
+	);
+	const rawProducts = products.data as Product[];
+	const readyProducts = rawProducts.reduce<Product[]>(
+		(products: Product[], product: Product) => {
+			const currentProductImages = productImageArrays.find(
+				(pIArr) => pIArr[0] === product.sku
+			);
+			if (currentProductImages) {
+				product.images = currentProductImages.slice(1);
+			} else {
+				product.images = ["dummy"];
+			}
+
+			return products;
+		},
+		rawProducts
+	);
+	const dbStr = JSON.stringify({
+		products: readyProducts,
+		reasonsForPinata: reasonsForPinata.data,
+		feedback: feedback.data,
+	});
 
 	const readyModuleContent = `export const db = ${dbStr}`;
 	const dbJSONFileName = "db.json";
@@ -45,12 +106,4 @@ const dirPath = join(process.cwd(), "src", "data");
 		writeFile(join(dirPath, dbReadyFileName), readyModuleContent),
 	]);
 	console.log("done: ", dbJSONFileName, dbReadyFileName);
-	// const readyModuleContent = `export const products = ${productsStr}`;
-	// const productsJSONFileName = "products.json";
-	// const productsReadyFileName = "readyProducts.ts";
-	// await Promise.all([
-	// 	writeFile(join(dirPath, productsJSONFileName), productsStr),
-	// 	writeFile(join(dirPath, productsReadyFileName), readyModuleContent),
-	// ]).catch(console.error);
-	// console.log("done: ", productsJSONFileName, productsReadyFileName);
 })();

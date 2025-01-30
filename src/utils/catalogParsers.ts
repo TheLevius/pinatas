@@ -53,8 +53,8 @@ const feedbackMapper: Mapper<Feedback> = (row, indexes) => ({
 const reasonsForPinataMapper: Mapper<ReasonsForPinata> = (row, indexes) => ({
 	id: Number(row[indexes.id]),
 	reason: row[indexes.reason],
-	description: row[indexes.description],
 	image: row[indexes.image],
+	description: row[indexes.description],
 });
 
 const productMapper: Mapper<Product> = (row, indexes) => ({
@@ -82,7 +82,7 @@ type Mapper<T> = (row: string[], indexes: Record<keyof T, number>) => T;
 type ParseCSV = <T>(rows: string[][], mapper: Mapper<T>) => T[];
 const parseCSV: ParseCSV = <T>(rows: string[][], mapper: Mapper<T>): T[] => {
 	const headers = rows[0] as (keyof T)[];
-	
+
 	const indexes = headers.reduce((indexes, header) => {
 		indexes[header] = headers.indexOf(header);
 		return indexes;

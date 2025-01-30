@@ -12,12 +12,12 @@ const Reasons = () => (
 			<span>Но если Вам хочется больше идей, ловите: </span>
 		</p>
 		<div className={styles.exampleBox}>
-			{db.reasonForPinata.map((el) => (
+			{db.reasonsForPinata.map((el) => (
 				<div key={el.reason} className={styles.cell}>
 					<div className={styles.imageContainer}>
 						<Image
 							className={styles.pic}
-							src={`/img/products/IMG_1550.webp`}
+							src={`/img/products/${el.image}.webp`}
 							alt={el.reason}
 							fill
 							sizes="(max-width: 480px) 160px, (max-width: 768px) 240px, (max-width: 1280px) 300px, 300px"
